@@ -625,9 +625,9 @@ function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span cl
 function aboutBox(arr,title){return `<div class="about">${title?`<h3>${esc(title)}</h3>`:''}${arr.map(([k,e])=>(KO()?`<p>${esc(k)}</p>`:'')+((EN()||BOTH())?`<p class="en2">${esc(e)}</p>`:'')).join('')}</div>`}
 function dayIdx(){const d=new Date();const n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return ((n*7919)%ALL.length+ALL.length)%ALL.length}
 function langSeg(){return `<div class="seg" id="langSeg">${[['ko','한국어'],['en','English'],['both','함께 Both']].map(([v,l])=>`<button data-lang="${v}" class="${S.lang==v?'on':''}">${l}</button>`).join('')}</div>`}
-const TABS=[['#/','🏠','처음','Home'],['#/path','🪷','공부길','Path'],['#/gloss','📖','용어','Terms'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
+const TABS=[['#/','🪷','처음','Home'],['#/gloss','📖','용어','Terms'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
 function tabs(){const h=location.hash||'#/';const cur=h==='#/'?'#/':'#/'+(h.slice(2).split('/')[0]);
-  const map={'#/intro':'#/path','#/s':'#/path','#/p':'#/path','#/soon':'#/path','#/chant':'#/path'};const c=map[cur]||cur;
+  const map={'#/intro':'#/','#/s':'#/','#/p':'#/','#/soon':'#/','#/chant':'#/','#/path':'#/'};const c=map[cur]||cur;
   $('#tabs').innerHTML=TABS.map(([hr,i,k,e])=>`<button data-go="${hr}" class="${c==hr?'on':''}"><span class="i">${i}</span>${L(k,e)}</button>`).join('')}
 function stepBtn(p,i){const lv=LEVELS[p.lv];return `<button class="step${p.ready?'':' soon'}" data-go="${p.id==='intro'?'#/intro':p.ready?'#/s/'+p.id:'#/soon/'+p.id}">
  <span class="no">${i}</span><span class="tt"><b>${esc(L(p.t,p.te))}</b>${KO()?`<span class="hz">${p.h}</span>`:''}${p.ready?'':`<span class="soontag">${L('준비 중','Coming soon')}</span>`}
