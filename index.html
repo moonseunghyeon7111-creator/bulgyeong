@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>소도불경공부</title>
+<meta name="theme-color" content="#5a1e14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="불경공부">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--paper:#f5eedd;--paper2:#ece1c6;--card:#fcf8ee;--ink:#2b1d16;--ink2:#5d4a3c;--muted:#8c7762;
+  --red:#8e2a1c;--gold:#c08a2e;--line:#dccba6;--head:#5a1e14;--green:#5f7f4a;--fs:1}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:"Noto Serif KR","Nanum Myeongjo","Batang","AppleMyungjo",serif;line-height:1.7;min-height:100vh;
+  background-image:radial-gradient(rgba(150,110,60,.06) 1px,transparent 1px);background-size:6px 6px}
+button{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--head);color:#f6e7c6;padding:calc(env(safe-area-inset-top) + 10px) 12px 10px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+header h1{flex:1;margin:0;font-size:1.12rem;letter-spacing:.06em;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtn{background:none;border:0;width:42px;height:42px;border-radius:10px;font-size:1.35rem;color:#f6e7c6;cursor:pointer}
+.hbtn:active{background:rgba(255,255,255,.12)}
+main{max-width:720px;margin:0 auto;padding:14px 14px calc(92px + env(safe-area-inset-bottom))}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--head);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs button{flex:1;min-width:0;background:none;border:0;color:#d6bf9a;padding:6px 0;font-size:.72rem;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+nav.tabs .i{font-size:1.3rem;line-height:1}
+nav.tabs button.on{color:#ffe0a0}
+.hero{text-align:center;padding:16px 8px 4px}
+.lotus{font-size:2.4rem;line-height:1}
+.hero h2{margin:6px 0 2px;font-size:1.65rem;letter-spacing:.12em}
+.hero p{margin:0;color:var(--muted);font-size:.92rem}
+.sec{margin:22px 4px 8px;font-size:1rem;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.sec:before{content:"";width:4px;height:1.1em;background:var(--red);border-radius:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 12px;margin:10px 0;box-shadow:0 1px 3px rgba(80,50,20,.08)}
+.today{border:2px solid var(--gold);background:linear-gradient(#fdf8ec,#f7eed8)}
+.lbl{color:var(--red);font-weight:700;font-size:.85rem;margin-bottom:4px;display:flex;justify-content:space-between;gap:8px}
+.h{font-size:calc(1.22rem * var(--fs));line-height:1.75;font-weight:700;word-break:keep-all;letter-spacing:.03em}
+.r{font-size:calc(.95rem * var(--fs));color:var(--ink2);margin-top:4px;word-break:keep-all}
+.k{font-size:calc(1.04rem * var(--fs));margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);word-break:keep-all}
+.ez{margin-top:10px;background:#eef2e4;border-left:4px solid var(--green);border-radius:8px;padding:8px 10px;font-size:calc(.95rem * var(--fs));word-break:keep-all}
+.ez .el{display:block;font-size:.78rem;color:#4b6a37;font-weight:700}
+.en{font-family:Georgia,"Times New Roman",serif;font-size:calc(1.02rem * var(--fs));line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:#33465e}
+.terms{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.term{background:#f6e6c2;border:1px solid #e2c98f;color:#6b3f12;border-radius:14px;padding:2px 10px;font-size:.85rem;cursor:pointer}
+.hide-h .h,.hide-r .r,.hide-z .ez{display:none}
+.study .k,.study .en{filter:blur(6px);cursor:pointer;transition:filter .2s}
+.study .k.show,.study .en.show{filter:none}
+.meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:.8rem;gap:6px}
+.meta a{color:var(--muted)}
+.star{background:none;border:0;font-size:1.45rem;cursor:pointer;color:#c9b48d;padding:0 4px;line-height:1}
+.star.on{color:#d18f12}
+.say{background:none;border:1px solid var(--line);border-radius:16px;padding:2px 10px;font-size:.85rem;color:var(--ink2);cursor:pointer;margin-left:auto}
+.say.on{background:var(--red);color:#fff;border-color:var(--red)}
+.card.speaking{outline:3px solid var(--green)}
+.num{display:inline-block;min-width:1.8em;color:var(--red);font-weight:700}
+.step{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer;position:relative}
+.step:active{background:var(--paper2)}
+.step .no{flex:none;width:38px;height:38px;border-radius:50%;background:var(--head);color:#f6e7c6;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700}
+.step .tt{flex:1;min-width:0}
+.step .tt b{font-size:1.08rem}
+.step .tt .hz{color:var(--muted);font-size:.85rem;margin-left:6px}
+.step .tt small{display:block;color:var(--ink2);font-size:.84rem;word-break:keep-all}
+.badge{display:inline-block;font-size:.7rem;border-radius:8px;padding:1px 7px;margin-right:6px;color:#fff;vertical-align:2px}
+.lv0{background:#8c7762}.lv1{background:#5f7f4a}.lv2{background:#b07a1e}.lv3{background:#8e2a1c}
+.step.soon{opacity:.62}
+.step .go{color:var(--muted);font-size:1.2rem}
+.soontag{font-size:.72rem;color:var(--red);border:1px solid var(--red);border-radius:8px;padding:0 6px;margin-left:6px;vertical-align:2px}
+.chhead{text-align:center;margin:6px 0 12px}
+.chhead .hz{font-size:1.5rem;letter-spacing:.18em;font-weight:700}
+.chhead .d{color:var(--ink2);font-size:.92rem}
+.chhead .by{color:var(--muted);font-size:.85rem}
+.about{background:#f8f0dc;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.about p{margin:6px 0;font-size:calc(.97rem * var(--fs));word-break:keep-all}
+.about p.en2{font-family:Georgia,serif;color:#33465e}
+.about h3{margin:0 0 4px;font-size:1rem;color:var(--red)}
+.pager{display:flex;gap:8px;margin-top:18px}
+.pager button,.btn{flex:1;background:var(--head);color:#f6e7c6;border:0;border-radius:12px;padding:12px;cursor:pointer;font-size:.95rem}
+.pager button:disabled{opacity:.3}
+.btn.alt{background:var(--gold);color:#2b1d16}
+.search{display:flex;gap:8px;margin:4px 0 12px}
+.search input{flex:1;font:inherit;font-size:1.05rem;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fffdf6;color:var(--ink)}
+mark{background:#f6d77e;color:inherit;border-radius:3px;padding:0 1px}
+.empty{text-align:center;color:var(--muted);padding:36px 10px}
+.opt{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+.opt .t b{display:block}.opt .t small{color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:none}
+.seg button{border:0;background:#fffdf6;padding:8px 12px;cursor:pointer;font-size:.92rem}
+.seg button.on{background:var(--head);color:#f6e7c6}
+.gl{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+.gl b{font-size:calc(1.06rem * var(--fs))}
+.gl .kk{color:var(--red);font-size:.95rem;margin-left:6px}
+.gl p{margin:5px 0 0;font-size:calc(.95rem * var(--fs));word-break:keep-all}
+.gl p.en2{font-family:Georgia,serif;color:#33465e}
+.chant{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin:10px 0;text-align:center}
+.chant .ln{margin:12px 0}
+.chant .ln .h{font-size:calc(1.15rem * var(--fs))}
+.chant .ln .r{font-size:calc(1.15rem * var(--fs));color:var(--ink);font-weight:700}
+#pop{position:fixed;inset:0;background:rgba(30,15,8,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
+#pop.on{display:flex}
+#pop .box{background:var(--card);width:100%;max-width:720px;border-radius:18px 18px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(0,0,0,.25)}
+#pop .box b{font-size:1.3rem}
+#pop .box .kk{color:var(--red);margin-left:8px;font-size:1.1rem}
+#pop .box p{margin:8px 0 0;word-break:keep-all}
+#pop .box p.en2{font-family:Georgia,serif;color:#33465e}
+#pop .box button{margin-top:14px;width:100%}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(40,25,15,.92);color:#fff;padding:8px 16px;border-radius:20px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:30}
+.toast.on{opacity:1}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:26px}
+.langbar{display:flex;justify-content:center;margin:6px 0 2px}
+</style>
+</head>
+<body>
+<header>
+  <button class="hbtn" id="back" aria-label="Back" style="visibility:hidden">‹</button>
+  <h1 id="ttl">소도불경공부</h1>
+  <button class="hbtn" id="rnd" aria-label="Random">🎲</button>
+</header>
+<main id="app"></main>
+<nav class="tabs" id="tabs"></nav>
+<div id="pop"><div class="box" id="popbox"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+// 소도불경공부 — 내용 데이터
+// h: 원문(한문)  r: 한글 음  k: 해석  z: 쉬운 풀이  e: 영어  w: 용어(GLOSS 키)
+
+const INTRO = [
+  {id:'what', t:'불경이란 무엇인가요?', te:'What Are Buddhist Scriptures?', p:[
+    ['불경(佛經)은 부처님의 가르침을 기록한 책입니다. "경(經)"은 본래 베를 짤 때 길게 걸어 두는 \'날실\'을 뜻하는 글자로, 세상을 꿰뚫는 변하지 않는 진리라는 뜻을 담고 있습니다.',
+     'Buddhist scriptures (sutras) are records of the Buddha\'s teachings. The character 經 originally meant the long "warp threads" on a loom — a sign of truth that runs through everything and does not change.'],
+    ['부처님은 글을 남기지 않으셨습니다. 열반(돌아가심) 후 제자들이 모여 "나는 이렇게 들었습니다(如是我聞 여시아문)"로 시작하며 들은 말씀을 함께 외워 확인했고, 이것이 오랜 세월 입으로 전해지다가 뒷날 글로 적혀 불경이 되었습니다.',
+     'The Buddha himself wrote nothing. After his passing, his disciples gathered and recited together what they had heard, beginning with "Thus have I heard." These teachings were passed down by memory for centuries before being written down.'],
+  ]},
+  {id:'buddha', t:'부처님은 누구신가요?', te:'Who Was the Buddha?', p:[
+    ['부처님의 본래 이름은 고타마 싯다르타로, 약 2,600년 전 지금의 네팔 지역 카필라국의 왕자로 태어나셨습니다. 늙음·병듦·죽음의 괴로움을 보고 29세에 궁궐을 떠나 수행하셨고, 35세에 보리수 아래에서 깨달음을 얻으셨습니다.',
+     'The Buddha was born about 2,600 years ago as Prince Siddhartha Gautama of the Shakya clan, in what is now Nepal. Moved by the suffering of old age, sickness and death, he left the palace at 29 and attained awakening under the Bodhi tree at 35.'],
+    ['"부처(佛, Buddha)"는 이름이 아니라 "깨달은 사람"이라는 뜻입니다. 그래서 불교는 "누구나 깨달으면 부처가 될 수 있다"고 가르칩니다. 석가모니(釋迦牟尼)는 "석가족의 성자"라는 뜻의 존칭입니다.',
+     '"Buddha" is not a name but a title meaning "the Awakened One." Buddhism teaches that anyone can become a Buddha by awakening. "Shakyamuni" means "the sage of the Shakya clan."'],
+  ]},
+  {id:'tripitaka', t:'경·율·논 — 삼장(三藏)', te:'Sutra, Vinaya, Abhidharma — the Three Baskets', p:[
+    ['불교의 책은 크게 세 바구니(삼장)로 나눕니다. ① 경(經) — 부처님의 말씀, ② 율(律) — 스님과 불자가 지킬 생활 규칙(계율), ③ 논(論) — 뒤의 큰스님들이 경전의 뜻을 풀어 정리한 해설서입니다.',
+     'Buddhist texts are divided into "Three Baskets": (1) Sutra — the Buddha\'s words, (2) Vinaya — rules of conduct (precepts), and (3) Abhidharma/Shastra — commentaries by later masters explaining the meaning.'],
+    ['이 세 가지를 모두 모은 것을 "대장경(大藏經)"이라 합니다. 우리나라 해인사에 보관된 고려 팔만대장경은 목판 8만 장이 넘는 세계적인 보물로, 유네스코 세계기록유산입니다.',
+     'The complete collection is called the "Great Canon" (Daejanggyeong). The Goryeo Tripitaka Koreana at Haeinsa Temple, carved on more than 80,000 woodblocks, is a UNESCO Memory of the World treasure.'],
+  ]},
+  {id:'core', t:'꼭 알아야 할 핵심 가르침', te:'Core Teachings to Know', p:[
+    ['삼보(三寶) — 불교의 세 가지 보배: 부처님(佛), 가르침(法), 함께 수행하는 스님과 대중(僧). 불자가 된다는 것은 이 삼보에 귀의(돌아가 의지함)하는 것입니다.',
+     'The Three Jewels: the Buddha, the Dharma (teaching) and the Sangha (community). To become a Buddhist is to "take refuge" in these three.'],
+    ['사성제(四聖諦) — 네 가지 거룩한 진리: 삶에는 괴로움이 있다(苦), 괴로움에는 원인(욕심·집착)이 있다(集), 괴로움은 사라질 수 있다(滅), 괴로움을 없애는 길이 있다(道).',
+     'The Four Noble Truths: there is suffering; suffering has a cause (craving and clinging); suffering can end; and there is a path to end it.'],
+    ['팔정도(八正道) — 괴로움을 없애는 여덟 가지 바른 길: 바르게 보기·생각하기·말하기·행동하기·생활하기·노력하기·마음 챙기기·집중하기.',
+     'The Noble Eightfold Path: right view, intention, speech, action, livelihood, effort, mindfulness and concentration.'],
+    ['오계(五戒) — 불자가 지키는 다섯 가지 약속: 생명을 죽이지 않기, 훔치지 않기, 그릇된 음행을 하지 않기, 거짓말하지 않기, 술 취하지 않기.',
+     'The Five Precepts: not killing, not stealing, no sexual misconduct, not lying, and not becoming intoxicated.'],
+  ]},
+  {id:'korea', t:'한국 불교에서는 어떻게 공부하나요?', te:'How Is Buddhism Studied in Korea?', p:[
+    ['한국 절의 스님 학교(강원)에서는 수백 년 동안 정해진 순서로 공부해 왔습니다. 가장 먼저 배우는 책이 바로 초발심자경문이고, 그 다음 서장·도서·선요·절요(사집), 이어서 능엄경·기신론·금강경·원각경(사교), 마지막으로 화엄경 등(대교)을 배웁니다.',
+     'Korean monastic seminaries have followed a set curriculum for centuries. The very first text is the Chobalsim Jagyeongmun, followed by the "Four Collections," then the "Four Teachings" (including the Diamond Sutra), and finally the Avatamsaka (Flower Garland) Sutra.'],
+    ['이 앱도 그 전통을 따라 초급(초발심자경문·반야심경) → 중급(법구경·천수경) → 고급(금강경) 순서로 차근차근 올라가도록 만들었습니다.',
+     'This app follows that tradition, moving step by step from beginner (Chobalsim, Heart Sutra) to intermediate (Dhammapada, Thousand Hands Sutra) to advanced (Diamond Sutra).'],
+  ]},
+  {id:'how', t:'이 앱으로 공부하는 방법', te:'How to Study with This App', p:[
+    ['① 공부 길의 순서대로 한 경전씩 읽으세요. ② 각 구절은 원문(한문) → 한글 음 → 해석 → 쉬운 풀이 순서로 보입니다. ③ 밑줄 친 낱말을 누르면 불교 용어의 뜻이 바로 나옵니다. ④ 🔊 듣기를 누르면 소리 내어 읽어 줍니다. ⑤ 마음에 닿는 구절은 ⭐로 모아 두세요.',
+     '(1) Follow the study path one text at a time. (2) Each verse shows the original (Classical Chinese), Korean reading, translation and easy explanation. (3) Tap an underlined word to see its meaning. (4) Tap 🔊 to listen. (5) Save verses that move you with ⭐.'],
+    ['초발심자경문에서는 "글을 외우며 그 뜻을 살펴야 하고, 소리만 따라가지 말라"고 가르칩니다. 뜻을 알고 읽는 것 — 그것이 이 앱의 목적입니다.',
+     'The Chobalsim teaches: "Recite the text while contemplating its meaning; do not merely follow the sound." Reading with understanding — that is the purpose of this app.'],
+  ]},
+];
+
+// 공부 길 (홈 메뉴 순서)
+const PATH = [
+  {id:'intro', lv:0, t:'불경이란?', te:'What Are the Sutras?', h:'入門', d:'불경·부처님·핵심 가르침 입문 안내', de:'Introduction to the sutras, the Buddha and core teachings', ready:true},
+  {id:'chobal', lv:1, t:'초발심자경문', te:'Admonitions for Beginners', h:'初發心自警文', d:'처음 마음을 낸 사람을 위한 생활 가르침', de:'Guidance for those who have just set their hearts on the path', ready:true},
+  {id:'heart', lv:1, t:'반야심경', te:'The Heart Sutra', h:'般若心經', d:'가장 짧고 많이 외우는 지혜의 핵심 경전', de:'The shortest and most recited sutra — the heart of wisdom', ready:true},
+  {id:'dhamma', lv:2, t:'법구경', te:'The Dhammapada', h:'法句經', d:'부처님의 짧은 지혜 말씀 423구절 모음', de:'423 short verses of the Buddha\'s wisdom', ready:false},
+  {id:'chunsu', lv:2, t:'천수경', te:'The Thousand Hands Sutra', h:'千手經', d:'한국 절에서 매일 독송하는 참회·발원의 경전', de:'Recited daily in Korean temples — repentance and vows', ready:false},
+  {id:'diamond', lv:3, t:'금강경', te:'The Diamond Sutra', h:'金剛經', d:'"집착하지 말라" — 공(空) 사상의 대표 경전', de:'"Do not cling" — the great sutra of emptiness', ready:false},
+];
+const LEVELS = [['입문','Start'],['초급','Beginner'],['중급','Intermediate'],['고급','Advanced']];
+
+// 경전 본문
+const SUTRAS = {
+chobal: {
+  t:'초발심자경문', te:'Admonitions for Beginners (Chobalsim Jagyeongmun)', h:'初發心自警文',
+  about:[
+    ['"처음 발심한 사람이 스스로 경계하는 글"이라는 뜻입니다. 고려의 보조국사 지눌 스님의 「계초심학인문」, 신라의 원효 스님의 「발심수행장」, 고려의 야운 스님의 「자경문」 세 편을 한 권으로 묶은 책입니다.',
+     'The title means "writings for beginners to admonish themselves." It combines three works: Jinul\'s "Admonitions to Beginning Students," Wonhyo\'s "Arouse Your Mind and Practice," and Yaun\'s "Self-Admonitions."'],
+    ['조선 시대부터 600년 넘게 한국의 모든 스님이 출가해서 가장 먼저 배우는 교과서입니다. 어려운 철학보다 "어떻게 생활하고, 어떤 마음으로 공부할 것인가"를 가르치므로 처음 불교를 접하는 사람에게 가장 좋은 첫 책입니다.',
+     'For over 600 years it has been the very first textbook for every Korean monk and nun. Rather than difficult philosophy, it teaches how to live and with what attitude to study — the ideal first book for anyone new to Buddhism.'],
+  ],
+  parts:[
+  {id:'chosim', t:'계초심학인문', te:'Admonitions to Beginning Students', h:'誡初心學人文',
+   by:'보조국사 지눌 (1158~1210, 고려)', bye:'National Master Bojo Jinul (1158–1210), Goryeo',
+   d:'수행 공동체에서 지켜야 할 생활 예절과 공부하는 마음가짐',
+   de:'Daily etiquette in the community and the right attitude for study',
+   about:[['지눌 스님이 순천 송광사(조계산)에서 수행 공동체(정혜결사)를 이끌며, 새로 들어온 수행자들에게 일러 준 생활 규칙과 마음가짐입니다. 친구 사귀기, 식사 예절, 말조심, 법문 듣는 자세까지 아주 구체적이어서 오늘날 우리 생활에도 그대로 적용됩니다.',
+           'Jinul wrote this while leading a practice community at Songgwangsa on Mt. Jogye. It gives newcomers very concrete guidance — choosing friends, table manners, guarding speech, how to listen to teachings — that still applies to daily life today.']],
+   items:[
+{h:'夫初心之人 須遠離惡友 親近賢善', r:'부초심지인 수원리악우 친근현선',
+ k:'무릇 처음 마음을 낸 사람은 반드시 나쁜 벗을 멀리하고, 어질고 착한 이를 가까이해야 한다.',
+ z:'공부를 처음 시작할 때는 누구와 어울리느냐가 가장 중요합니다. 나쁜 습관을 가진 사람보다 바르게 사는 사람 곁에 머무세요.',
+ e:'Those who have just set their hearts on the path must keep far away from bad companions and draw near to the wise and good.',
+ w:['초심','악우','선우']},
+{h:'受五戒十戒等 善知持犯開遮', r:'수오계십계등 선지지범개차',
+ k:'오계와 십계 등을 받아서, 지키는 것과 어기는 것, 열어 줄 때와 막아야 할 때를 잘 알아야 한다.',
+ z:'계율은 단순히 "하지 마라"가 아닙니다. 언제 꼭 지키고 언제 융통성을 둘지까지 아는 지혜가 필요합니다.',
+ e:'Receive the Five Precepts, the Ten Precepts and the rest, and understand well what keeps them, what breaks them, when they may be relaxed and when they must be held firm.',
+ w:['오계','십계','지범개차']},
+{h:'但依金口聖言 莫順庸流妄說', r:'단의금구성언 막순용류망설',
+ k:'오직 부처님의 거룩한 말씀에 의지하고, 평범한 무리의 헛된 말을 따르지 말라.',
+ z:'떠도는 소문이나 남의 말보다 부처님의 가르침(경전)을 기준으로 삼으라는 뜻입니다.',
+ e:'Rely only on the holy words from the Buddha\'s golden mouth; do not follow the idle talk of ordinary people.',
+ w:['금구']},
+{h:'旣已出家 參陪淸衆 常念柔和善順 不得我慢貢高', r:'기이출가 참배청중 상념유화선순 부득아만공고',
+ k:'이미 출가하여 청정한 대중과 함께 지내게 되었으면, 늘 부드럽고 온화하며 착하고 순하기를 생각하고, 나를 내세우며 교만하게 굴지 말라.',
+ z:'여럿이 함께 지내는 곳에서는 겸손이 첫째입니다. "내가 잘났다"는 마음이 공부를 가장 크게 가로막습니다.',
+ e:'Having left home and joined the pure assembly, always think of being gentle, harmonious, kind and agreeable; never be conceited or arrogant.',
+ w:['출가','대중','아만']},
+{h:'大者爲兄 小者爲弟 儻有諍者 兩說和合 但以慈心相向 不得惡語傷人', r:'대자위형 소자위제 당유쟁자 양설화합 단이자심상향 부득악어상인',
+ k:'나이 많은 이는 형으로, 적은 이는 아우로 삼아라. 혹 다투는 사람이 있으면 양쪽 말을 잘 들어 화합시키고, 오직 자비로운 마음으로 서로 대하며 나쁜 말로 남을 상하게 하지 말라.',
+ z:'다툼이 생기면 편을 들지 말고 화해를 도우세요. 말 한마디가 사람을 살리기도, 다치게도 합니다.',
+ e:'Treat elders as older brothers and juniors as younger brothers. If there is a quarrel, bring both sides into harmony; face one another only with a loving heart, and never wound others with harsh words.',
+ w:['자비']},
+{h:'若也欺凌同伴 論說是非 如此出家 全無利益', r:'약야기릉동반 논설시비 여차출가 전무이익',
+ k:'만약 함께 수행하는 도반을 업신여기고 옳으니 그르니 따진다면, 이런 출가는 전혀 이익이 없다.',
+ z:'좋은 곳에 있어도 마음이 남을 깎아내리는 데 가 있다면 아무 소용이 없다는 경고입니다.',
+ e:'If you bully your companions and argue over right and wrong, such leaving home brings no benefit at all.',
+ w:['도반','시비']},
+{h:'財色之禍 甚於毒蛇 省己知非 常須遠離', r:'재색지화 심어독사 성기지비 상수원리',
+ k:'재물과 색(이성에 대한 욕망)의 화는 독사보다 심하니, 자신을 돌아보아 그릇됨을 알고 늘 멀리해야 한다.',
+ z:'돈과 욕망은 독사처럼 눈에 띄지 않게 사람을 무너뜨립니다. 늘 스스로를 살피세요.',
+ e:'The calamity of wealth and lust is worse than a poisonous snake; examine yourself, recognize what is wrong, and always keep far from it.',
+ w:['재색']},
+{h:'無緣事 則不得入他房院 當屛處 不得强知他事', r:'무연사 즉부득입타방원 당병처 부득강지타사',
+ k:'볼일이 없으면 남의 방에 들어가지 말고, 가려진 곳에서 억지로 남의 일을 알려고 하지 말라.',
+ z:'남의 사생활을 존중하라는 가르침입니다. 오늘날로 말하면 "남의 일에 참견하지 말라"입니다.',
+ e:'Without good reason, do not enter another\'s room; in secluded places, do not pry into other people\'s affairs.',
+ w:[]},
+{h:'非六日 不得洗浣內衣 臨盥漱 不得高聲涕唾', r:'비육일 부득세완내의 임관수 부득고성체타',
+ k:'정해진 엿샛날이 아니면 속옷을 빨지 말고, 세수하고 양치할 때에는 큰 소리를 내며 코를 풀거나 침을 뱉지 말라.',
+ z:'옛 절에서는 정해진 날에 빨래를 했습니다. 공동생활의 규칙을 지키고 남에게 불쾌감을 주지 말라는 뜻입니다.',
+ e:'Except on the appointed sixth day, do not wash your underclothes; when washing your face and rinsing your mouth, do not loudly blow your nose or spit.',
+ w:[]},
+{h:'行益次 不得搪揬越序 經行次 不得開襟掉臂', r:'행익차 부득당돌월서 경행차 부득개금도비',
+ k:'음식을 나누어 줄 때에는 함부로 부딪치거나 차례를 넘지 말고, 경행할 때에는 옷깃을 풀어 헤치거나 팔을 휘젓지 말라.',
+ z:'작은 몸가짐 하나에도 마음이 드러납니다. 차례를 지키고 단정하게 걸으세요.',
+ e:'When food is being served, do not jostle or jump the queue; during walking meditation, do not open your robe or swing your arms.',
+ w:['경행']},
+{h:'言談次 不得高聲戲笑 非要事 不得出於門外', r:'언담차 부득고성희소 비요사 부득출어문외',
+ k:'이야기할 때에는 큰 소리로 장난치며 웃지 말고, 중요한 일이 아니면 문밖에 나가지 말라.',
+ z:'들뜬 마음은 공부를 흩어 놓습니다. 차분하게 말하고, 쓸데없이 나돌지 마세요.',
+ e:'When talking, do not laugh and joke loudly; unless on important business, do not go outside the gate.',
+ w:[]},
+{h:'有病人 須慈心守護 見賓客 須欣然迎接 逢尊長 須肅恭迴避', r:'유병인 수자심수호 견빈객 수흔연영접 봉존장 수숙공회피',
+ k:'병든 사람이 있으면 자비로운 마음으로 돌보고, 손님을 보면 반갑게 맞이하며, 어른을 만나면 엄숙하고 공손하게 길을 비켜 드려라.',
+ z:'아픈 이는 돌보고, 손님은 반기고, 어른은 공경하라 — 어디서나 통하는 사람의 도리입니다.',
+ e:'If someone is sick, care for them with a loving heart; when guests come, welcome them gladly; when you meet elders, step aside with respect and reverence.',
+ w:['자비']},
+{h:'辦道具 須儉約知足', r:'판도구 수검약지족',
+ k:'수행에 필요한 물건을 마련할 때에는 검소하게 아끼고 만족할 줄 알아야 한다.',
+ z:'필요한 만큼만 갖고 만족하는 마음(지족)이 곧 행복입니다.',
+ e:'When providing yourself with the requisites for practice, be frugal and know contentment.',
+ w:['지족']},
+{h:'齋食時 飮啜不得作聲 執放要須安詳 不得擧顔顧視 不得欣厭精麤 須默無言說 須防護雜念', r:'재식시 음철부득작성 집방요수안상 부득거안고시 부득흔염정추 수묵무언설 수방호잡념',
+ k:'공양(식사)할 때에는 마시고 먹으면서 소리를 내지 말고, 그릇을 들고 놓을 때는 차분하고 조심스럽게 하며, 고개를 들어 두리번거리지 말고, 음식이 좋다 나쁘다 가리지 말라. 말없이 조용히 먹고 잡념이 일어나지 않도록 마음을 지켜라.',
+ z:'밥 먹는 것도 수행입니다. 조용히, 감사히, 반찬 투정 없이 먹으세요.',
+ e:'At mealtime, do not make noise when drinking or eating; take up and set down your bowls calmly and carefully; do not raise your head and look around; do not delight in fine food or dislike coarse food; keep silent, and guard against stray thoughts.',
+ w:['공양','잡념']},
+{h:'須知受食 但療形枯 爲成道業 須念般若心經 觀三輪淸淨 不違道用', r:'수지수식 단료형고 위성도업 수념반야심경 관삼륜청정 불위도용',
+ k:'음식을 받는 것은 다만 몸이 마르지 않게 하여 도를 이루기 위한 것임을 알아야 한다. 반야심경을 생각하며, 주는 이·받는 이·주고받는 음식이 모두 청정함(삼륜청정)을 관하여, 도 닦는 데 어긋나지 않게 하라.',
+ z:'먹는 목적은 맛이 아니라 바르게 살고 공부할 힘을 얻기 위해서입니다.',
+ e:'Know that you receive food only to heal the body\'s withering so as to accomplish the work of the path. Recall the Heart Sutra, contemplate the purity of the "three wheels," and do not stray from the path.',
+ w:['도업','반야심경','삼륜청정']},
+{h:'赴焚修 須早暮勤行 自責懈怠 知衆行次 不得雜亂', r:'부분수 수조모근행 자책해태 지중행차 부득잡란',
+ k:'예불과 수행에 나아갈 때에는 아침저녁으로 부지런히 하고, 게으름을 스스로 꾸짖으며, 대중이 행하는 차례를 알아 어지럽히지 말라.',
+ z:'아침저녁 기도와 예불을 빠지지 말고, 게을러지는 자신을 스스로 일깨우세요.',
+ e:'When attending services, practice diligently morning and evening, rebuke your own laziness, know the order of the assembly and do not cause disorder.',
+ w:['분수','예불']},
+{h:'讚唄呪願 須誦文觀義 不得但隨音聲 不得韻曲不調', r:'찬패주원 수송문관의 부득단수음성 부득운곡부조',
+ k:'찬불가와 축원을 할 때에는 글을 외우며 그 뜻을 살펴야 하고, 다만 소리만 따라가지 말며, 가락이 어긋나지 않게 하라.',
+ z:'염불·독경할 때 소리만 내지 말고 뜻을 생각하세요. 이 앱으로 뜻을 공부하는 이유가 바로 이것입니다!',
+ e:'When chanting hymns and invocations, recite the text while contemplating its meaning; do not merely follow the sound, and keep the melody in tune.',
+ w:['찬패']},
+{h:'瞻敬尊顔 不得攀緣異境', r:'첨경존안 부득반연이경',
+ k:'부처님의 존귀한 얼굴을 우러러 공경할 때에는 다른 대상에 마음을 빼앗기지 말라.',
+ z:'절에서 부처님께 예배할 때에는 마음을 한곳에 모으세요.',
+ e:'When gazing reverently upon the Honored Face, do not let your mind cling to other objects.',
+ w:['반연']},
+{h:'須知自身罪障 猶如山海 須知理懺事懺 可以消除', r:'수지자신죄장 유여산해 수지이참사참 가이소제',
+ k:'자신의 죄업이 산과 바다처럼 많음을 알고, 이참과 사참으로 그것을 녹여 없앨 수 있음을 알아야 한다.',
+ z:'누구나 잘못이 많습니다. 그러나 진심으로 참회하면 녹여 없앨 수 있다는 희망의 가르침입니다.',
+ e:'Know that your own karmic obstructions are like mountains and seas, and know that they can be dissolved through repentance in principle and repentance in practice.',
+ w:['죄업','참회','이참사참']},
+{h:'深觀能禮所禮 皆從眞性緣起 深信感應不虛 影響相從', r:'심관능례소례 개종진성연기 심신감응불허 영향상종',
+ k:'절하는 나와 절 받는 부처님이 모두 참된 성품에서 인연 따라 일어난 것임을 깊이 관하고, 정성에 대한 응답(감응)이 헛되지 않아 그림자가 몸을 따르고 메아리가 소리를 따르듯 함을 깊이 믿어라.',
+ z:'정성을 다하면 반드시 응답이 있습니다. 그림자가 몸을 따라오듯이요.',
+ e:'Deeply contemplate that the one who bows and the one bowed to both arise from true nature through dependent origination; deeply believe that response to sincerity is never in vain, following as shadow follows form and echo follows sound.',
+ w:['진성','연기','감응']},
+{h:'居衆寮 須相讓不爭 須遞相扶護', r:'거중료 수상양부쟁 수체상부호',
+ k:'대중이 함께 쓰는 방에 머물 때에는 서로 양보하여 다투지 말고, 서로 돌아가며 돕고 보살펴야 한다.',
+ z:'함께 사는 곳에서는 양보와 배려가 최고의 수행입니다.',
+ e:'When living in the common quarters, yield to one another and do not quarrel; help and protect one another in turn.',
+ w:['대중']},
+{h:'愼諍論勝負 愼聚頭閑話 愼誤著他鞋 愼坐臥越次', r:'신쟁론승부 신취두한화 신오착타혜 신좌와월차',
+ k:'이기고 지는 것을 따지며 다투는 일을 삼가고, 머리를 맞대고 쓸데없는 이야기 하는 것을 삼가며, 남의 신발을 잘못 신는 것을 삼가고, 앉고 눕는 데 차례를 넘는 것을 삼가라.',
+ z:'말싸움, 뒷담화, 남의 물건 함부로 쓰기, 새치기 — 작은 것부터 조심하세요.',
+ e:'Beware of arguing over victory and defeat; beware of huddling together for idle chatter; beware of wearing another\'s shoes by mistake; beware of sitting or lying out of order.',
+ w:[]},
+{h:'對客言談 不得揚於家醜 但讚院門佛事 不得詣庫房 見聞雜事 自生疑惑', r:'대객언담 부득양어가추 단찬원문불사 부득예고방 견문잡사 자생의혹',
+ k:'손님과 이야기할 때에는 집안(절 안)의 허물을 드러내지 말고, 다만 절의 좋은 일을 칭찬하라. 부엌·창고에 가서 잡다한 일을 보고 들어 스스로 의혹을 일으키지 말라.',
+ z:'내가 속한 곳의 흉을 밖에서 보지 마세요. 좋은 점을 알리는 것이 모두를 살립니다.',
+ e:'When talking with guests, do not publicize the faults of the household; only praise the Buddhist activities of the monastery. Do not go to the storehouse, see and hear petty matters and give rise to doubts yourself.',
+ w:['불사']},
+{h:'非要事 不得遊州獵縣 與俗交通 令他憎嫉 失自道情', r:'비요사 부득유주렵현 여속교통 영타증질 실자도정',
+ k:'중요한 일이 아니면 이 고을 저 고을 돌아다니며 세속 사람과 어울려, 남이 미워하고 시기하게 하며 스스로 도 닦는 마음을 잃지 말라.',
+ z:'바깥 일에 너무 휩쓸리면 공부하는 마음을 잃게 됩니다.',
+ e:'Unless on important business, do not roam from town to town mixing with worldly people, causing others to resent you and losing your own aspiration for the path.',
+ w:[]},
+{h:'儻有要事出行 告住持人 及管衆者 令知去處', r:'당유요사출행 고주지인 급관중자 영지거처',
+ k:'혹 중요한 일이 있어 나가게 되면 주지와 대중을 맡은 이에게 알려 가는 곳을 알게 하라.',
+ z:'외출할 때는 어른께 행선지를 알리세요. 가정에서도 직장에서도 똑같습니다.',
+ e:'If you must go out on important business, inform the abbot and the one in charge of the assembly, so they know where you are going.',
+ w:['주지']},
+{h:'若入俗家 切須堅持正念 愼勿見色聞聲 流蕩邪心', r:'약입속가 절수견지정념 신물견색문성 유탕사심',
+ k:'만약 세속의 집에 들어가면 반드시 바른 마음을 굳게 지녀, 보이는 모양과 들리는 소리에 끌려 삿된 마음으로 흘러가지 않도록 삼가라.',
+ z:'어디에 있든 바른 마음(정념)을 놓치지 마세요.',
+ e:'If you enter a layperson\'s home, firmly maintain right mindfulness; take care not to be swept into wrong thoughts by what you see and hear.',
+ w:['정념']},
+{h:'又況披襟戲笑 亂說雜事 非時酒食 妄作無礙之行 深乖佛戒', r:'우황피금희소 난설잡사 비시주식 망작무애지행 심괴불계',
+ k:'하물며 옷깃을 풀어 헤치고 장난치며 웃고, 잡된 이야기를 어지러이 하며, 때 아닌 때에 술과 음식을 먹고, "나는 걸림이 없다"며 함부로 행동하여 부처님 계율을 크게 어기겠는가.',
+ z:'"깨달으면 아무래도 괜찮다"는 핑계로 함부로 행동하는 것을 크게 경계한 말씀입니다.',
+ e:'How much worse to open your robe and joke, chatter about trivial things, eat and drink at improper times, and recklessly act "without hindrance" — gravely violating the Buddha\'s precepts!',
+ w:['무애행']},
+{h:'又處賢善人嫌疑之間 豈爲有智慧人也', r:'우처현선인혐의지간 기위유지혜인야',
+ k:'또 어질고 착한 사람들에게 의심받는 처지에 놓이니, 어찌 지혜 있는 사람이라 하겠는가.',
+ z:'좋은 사람들에게 의심받을 행동은 처음부터 하지 않는 것이 지혜입니다.',
+ e:'Moreover, placing yourself under the suspicion of the wise and good — how could that be called wise?',
+ w:[]},
+{h:'住社堂 愼沙彌同行 愼人事往還 愼見他好惡 愼貪求文字 愼睡眠過度 愼散亂攀緣', r:'주사당 신사미동행 신인사왕환 신견타호오 신탐구문자 신수면과도 신산란반연',
+ k:'수행 처소에 머물 때에는 사미와 몰려다니는 것을 삼가고, 세상 인사로 오가는 것을 삼가며, 남의 좋고 나쁨을 따지는 것을 삼가고, 글자만 탐하는 것을 삼가며, 잠이 지나친 것을 삼가고, 마음이 흩어져 바깥에 끌려다니는 것을 삼가라.',
+ z:'남 평가하기, 지식만 쌓기, 늦잠, 산만함 — 공부를 막는 여섯 가지를 조심하세요.',
+ e:'While living in the practice hall, beware of going about with novices; beware of social visits; beware of judging others\' good and bad; beware of craving mere words; beware of excessive sleep; beware of a scattered mind chasing objects.',
+ w:['사미','반연']},
+{h:'若遇宗師陞座說法 切不得於法 作懸崖想 生退屈心 或作慣聞想 生容易心 當須虛懷聞之 必有機發之時', r:'약우종사승좌설법 절부득어법 작현애상 생퇴굴심 혹작관문상 생용이심 당수허회문지 필유기발지시',
+ k:'큰스님이 법상에 올라 설법하실 때, 그 가르침을 깎아지른 절벽처럼 어렵다 여겨 물러서는 마음을 내지 말고, 늘 듣던 이야기라 여겨 쉽게 생각하지도 말라. 마음을 비우고 들으면 반드시 깨달음의 기틀이 열리는 때가 있을 것이다.',
+ z:'"너무 어렵다"도, "다 아는 얘기다"도 아닌, 빈 마음으로 들을 때 비로소 깨달음이 옵니다.',
+ e:'When a master ascends the seat to teach, never think the Dharma is a sheer cliff and shrink back, nor think you have heard it all before and take it lightly. Listen with an empty mind, and there will surely come a moment of awakening.',
+ w:['종사','법문']},
+{h:'不得隨學語者 但取口辦', r:'부득수학어자 단취구판',
+ k:'말만 배우는 사람을 따라 입으로 잘 말하는 것만 취하지 말라.',
+ z:'아는 것을 말로 자랑하기보다 몸으로 실천하는 것이 진짜 공부입니다.',
+ e:'Do not follow those who merely learn words and value only eloquent talk.',
+ w:[]},
+{h:'所謂蛇飮水成毒 牛飮水成乳 智學成菩提 愚學成生死 是也', r:'소위사음수성독 우음수성유 지학성보리 우학성생사 시야',
+ k:'이른바 "뱀이 물을 마시면 독이 되고 소가 물을 마시면 젖이 되듯이, 지혜롭게 배우면 깨달음을 이루고 어리석게 배우면 생사의 괴로움을 이룬다"는 것이 이것이다.',
+ z:'같은 물도 누가 마시느냐에 따라 독도 되고 젖도 됩니다. 같은 가르침도 어떤 마음으로 배우느냐가 중요합니다. 초발심자경문에서 가장 유명한 구절입니다.',
+ e:'As it is said: "When a snake drinks water it becomes poison; when a cow drinks water it becomes milk. Wise learning leads to awakening; foolish learning leads to birth and death."',
+ w:['보리','생사']},
+{h:'又不得於主法人 生輕薄想 因之於道有障 不能進修 切須愼之', r:'우부득어주법인 생경박상 인지어도유장 불능진수 절수신지',
+ k:'또 법을 설하는 사람을 가볍게 여기는 마음을 내지 말라. 그로 인해 도에 장애가 생겨 앞으로 나아가 닦을 수 없게 되니 부디 삼가야 한다.',
+ z:'가르치는 사람을 얕보면 배움의 문이 닫힙니다.',
+ e:'Do not think lightly of the one who teaches the Dharma; it will obstruct your path and you will be unable to progress. Be very careful of this.',
+ w:[]},
+{h:'論云 如人夜行 罪人執炬當路 若以人惡故 不受光明 墮坑落塹去矣', r:'논운 여인야행 죄인집거당로 약이인악고 불수광명 타갱낙참거의',
+ k:'논에 이르기를, "어떤 사람이 밤길을 가는데 죄인이 횃불을 들고 길을 비추고 있다. 그 사람이 나쁘다고 해서 빛을 받지 않으면 구덩이와 구렁에 빠지고 말 것이다"라고 하였다.',
+ z:'말하는 사람의 흠을 보지 말고, 그가 비추는 진리의 빛을 받으라는 비유입니다.',
+ e:'A treatise says: "Someone walks at night and a criminal holds a torch to light the road. If, because the man is bad, you refuse his light, you will fall into a pit or ditch."',
+ w:[]},
+{h:'聞法之次 如履薄氷 必須側耳目而聽玄音 肅情塵而賞幽致', r:'문법지차 여리박빙 필수측이목이청현음 숙정진이상유치',
+ k:'법을 들을 때에는 얇은 얼음을 밟듯 조심하여, 귀와 눈을 기울여 깊은 소리를 듣고, 감정의 티끌을 가라앉혀 그윽한 이치를 음미하라.',
+ z:'가르침을 들을 때는 온 정신을 모아, 마음을 고요히 하고 들으세요.',
+ e:'When listening to the Dharma, be as careful as walking on thin ice: incline your ears and eyes to hear the profound sound, and calm the dust of emotions to savor its subtle meaning.',
+ w:['법문']},
+{h:'下堂後 默坐觀之 如有所疑 博問先覺 夕惕朝詢 不濫絲髮', r:'하당후 묵좌관지 여유소의 박문선각 석척조순 불람사발',
+ k:'법당에서 나온 뒤에는 조용히 앉아 들은 것을 되새기고, 의심나는 것이 있으면 먼저 깨달은 이에게 널리 물어, 저녁에 조심스럽게 생각하고 아침에 물어서 털끝만큼도 어긋남이 없게 하라.',
+ z:'듣고 끝내지 말고 되새기고, 모르면 꼭 물어보세요. 이것이 공부하는 법입니다.',
+ e:'After leaving the hall, sit silently and reflect on it. If you have doubts, ask widely of those who awakened before you; ponder in the evening and inquire in the morning, without deviating by a hair.',
+ w:['선각']},
+{h:'如是乃可能生正信 以道爲懷者歟', r:'여시내가능생정신 이도위회자여',
+ k:'이와 같이 해야 바른 믿음을 낼 수 있고, 도를 마음에 품은 사람이라 할 것이다.',
+ z:'바른 믿음은 맹목적인 것이 아니라 듣고, 생각하고, 묻는 데서 생깁니다.',
+ e:'Only thus can true faith arise — this is one who holds the path in his heart.',
+ w:['정신']},
+{h:'無始習熟 愛欲恚癡 纏綿意地 暫伏還起 如隔日瘧', r:'무시습숙 애욕에치 전면의지 잠복환기 여격일학',
+ k:'시작을 알 수 없는 오랜 옛적부터 익숙해진 애욕과 성냄과 어리석음이 마음 바탕에 얽혀 있어, 잠깐 가라앉았다가도 다시 일어나는 것이 하루걸러 앓는 학질과 같다.',
+ z:'나쁜 습관은 잠시 사라진 듯해도 다시 올라옵니다. 그러니 방심하지 마세요.',
+ e:'Desire, anger and delusion, habituated since beginningless time, are entangled in the mind; suppressed for a moment they rise again, like a fever that returns every other day.',
+ w:['무시','삼독']},
+{h:'一切時中 直須用加行方便智慧之力 痛自遮護 豈可閑謾遊談無根 虛喪天日 欲冀心宗而求出路哉', r:'일체시중 직수용가행방편지혜지력 통자차호 기가한만유담무근 허상천일 욕기심종이구출로재',
+ k:'언제나 정진과 방편과 지혜의 힘으로 간절하게 스스로를 막고 지켜야 하거늘, 어찌 한가하고 게으르게 근거 없는 이야기로 헛되이 세월을 보내면서 마음의 근본을 깨달아 벗어날 길을 바라겠는가.',
+ z:'시간은 한정되어 있습니다. 잡담으로 하루를 허비하지 말고 마음을 닦는 데 쓰세요.',
+ e:'At all times you must use the power of diligent effort, skillful means and wisdom to guard yourself earnestly. How can you idle about in groundless talk, wasting your days, and still hope to realize the mind and find the way out?',
+ w:['방편','지혜']},
+{h:'但堅志節 責躬匪懈 知非遷善 改悔調柔', r:'단견지절 책궁비해 지비천선 개회조유',
+ k:'다만 뜻과 절개를 굳게 하고, 자신을 꾸짖어 게으르지 말며, 잘못을 알면 착한 쪽으로 옮겨 가고, 뉘우쳐 고치며 마음을 부드럽게 길들여라.',
+ z:'잘못을 알면 바로 고치세요. 그것이 가장 빠른 공부입니다.',
+ e:'Simply make your resolve firm, rebuke yourself without slacking, recognize what is wrong and turn toward the good, repent, reform, and make your mind gentle.',
+ w:[]},
+{h:'勤修而觀力轉深 鍊磨而行門益淨', r:'근수이관력전심 연마이행문익정',
+ k:'부지런히 닦으면 마음을 살피는 힘이 점점 깊어지고, 갈고 닦으면 수행의 문이 더욱 깨끗해진다.',
+ z:'꾸준함이 힘입니다. 하루하루 쌓이면 마음이 깊고 맑아집니다.',
+ e:'Practice diligently and your power of contemplation will deepen; polish and refine, and your gate of practice will grow ever purer.',
+ w:[]},
+{h:'長起難遭之想 道業恒新 常懷慶幸之心 終不退轉', r:'장기난조지상 도업항신 상회경행지심 종불퇴전',
+ k:'만나기 어려운 가르침을 만났다는 생각을 늘 일으키면 도 닦는 일이 항상 새로워지고, 늘 기쁘고 다행스러운 마음을 품으면 끝내 물러서지 않는다.',
+ z:'"이 가르침을 만난 것이 얼마나 다행인가" 하는 마음이 공부를 계속하게 하는 힘입니다.',
+ e:'Always remember how rare it is to encounter this teaching, and your practice will stay ever fresh; always cherish a heart of joy and gratitude, and you will never turn back.',
+ w:['도업','불퇴전']},
+{h:'如是久久 自然定慧圓明 見自心性 用如幻悲智 還度衆生 作人天大福田 切須勉之', r:'여시구구 자연정혜원명 견자심성 용여환비지 환도중생 작인천대복전 절수면지',
+ k:'이와 같이 오래오래 하면 자연히 선정과 지혜가 둥글고 밝아져 자기 마음의 성품을 보게 되고, 허깨비 같은 자비와 지혜를 써서 다시 중생을 건지며, 사람과 하늘의 큰 복밭이 될 것이니 부디 힘쓰라.',
+ z:'꾸준히 닦으면 결국 자신의 참마음을 보고, 그 힘으로 다른 이들을 돕는 사람이 됩니다.',
+ e:'Continue like this for a long time, and naturally concentration and wisdom will become perfectly bright; you will see the nature of your own mind, and using compassion and wisdom that are like illusions, you will in turn save living beings and become a great field of blessings for humans and gods. Strive at this!',
+ w:['정혜','견성','중생','복전']},
+{h:'泰和乙丑冬月 海東曹溪山老衲知訥志', r:'태화을축동월 해동조계산노납지눌지',
+ k:'태화 을축년(1205년) 겨울, 해동 조계산의 늙은 승려 지눌이 쓰다.',
+ z:'해동(海東)은 우리나라, 조계산은 지금의 전남 순천 송광사가 있는 산입니다.',
+ e:'Written in the winter of the Eulchuk year of Taihe (1205) by the old monk Jinul of Mt. Jogye in Haedong (Korea).',
+ w:['지눌']},
+   ]},
+  {id:'balsim', t:'발심수행장', te:'Arouse Your Mind and Practice', h:'發心修行章', by:'원효대사 (617~686, 신라)', bye:'Great Master Wonhyo (617–686), Silla',
+   d:'세상의 덧없음을 깨닫고 지금 바로 수행하라는 간절한 권유', de:'An urgent call to realize impermanence and practice now', items:[], soon:true},
+  {id:'jagyeong', t:'자경문', te:'Self-Admonitions', h:'自警文', by:'야운 스님 (고려 말)', bye:'Master Yaun (late Goryeo)',
+   d:'수행자가 스스로를 경계하는 열 가지 가르침', de:'Ten admonitions for practitioners to guard themselves', items:[], soon:true},
+  ]
+},
+
+heart: {
+  t:'반야심경', te:'The Heart Sutra', h:'般若心經',
+  about:[
+    ['정식 이름은 「마하반야바라밀다심경」, "크나큰 지혜로 저 언덕(깨달음)에 건너가는 핵심 말씀"이라는 뜻입니다. 600권이나 되는 「대반야경」의 핵심을 260자에 담았습니다. 당나라 현장 스님이 번역한 것을 한국에서 독송합니다.',
+     'Its full name, Maha Prajna Paramita Hrdaya Sutra, means "the heart of the great wisdom that crosses to the other shore." It condenses the 600-volume Great Prajnaparamita Sutra into just 260 characters. Koreans recite the Chinese translation by Master Xuanzang.'],
+    ['한국의 거의 모든 법회와 의식에서 독송되는 경전입니다. 핵심은 "공(空)" — 세상 모든 것은 인연 따라 모였다 흩어지므로 고정된 실체가 없다는 가르침입니다. 이것을 깨달으면 집착과 두려움에서 벗어날 수 있습니다.',
+     'It is chanted at almost every Korean Buddhist service. Its key teaching is "emptiness": all things arise and pass away through causes and conditions and have no fixed self. Realizing this frees us from clinging and fear.'],
+  ],
+  chant:true,
+  parts:[{id:'heart', t:'반야심경 본문', te:'The Heart Sutra Text', h:'般若心經', by:'현장 번역 (649년, 당)', bye:'Translated by Xuanzang (649, Tang)', d:'', de:'', items:[
+{h:'摩訶般若波羅蜜多心經', r:'마하반야바라밀다심경',
+ k:'크나큰 지혜로 저 언덕에 건너가는 핵심 말씀(경).',
+ z:'마하 = 크다, 반야 = 지혜, 바라밀다 = 저 언덕(깨달음)으로 건너감, 심 = 핵심, 경 = 말씀. 제목 자체가 경전 전체의 요약입니다.',
+ e:'The Heart Sutra of the Great Perfection of Wisdom.',
+ w:['마하','반야','바라밀다']},
+{h:'觀自在菩薩 行深般若波羅蜜多時 照見五蘊皆空 度一切苦厄', r:'관자재보살 행심반야바라밀다시 조견오온개공 도일체고액',
+ k:'관자재보살께서 깊은 반야바라밀다(지혜의 완성)를 행하실 때, 오온(몸과 마음을 이루는 다섯 요소)이 모두 공(空)함을 비추어 보시고, 모든 괴로움과 재앙을 건너셨다.',
+ z:'관세음보살님이 깊은 지혜로 보니, 나라고 여기는 몸과 마음이 고정된 실체가 아니었습니다. 이것을 깨닫자 모든 괴로움에서 벗어나셨습니다. 반야심경 전체의 결론이 이 첫 구절에 있습니다.',
+ e:'Avalokiteshvara Bodhisattva, practicing deep prajna paramita, clearly saw that all five aggregates are empty, and passed beyond all suffering and distress.',
+ w:['관자재보살','보살','오온','공']},
+{h:'舍利子 色不異空 空不異色 色卽是空 空卽是色 受想行識 亦復如是', r:'사리자 색불이공 공불이색 색즉시공 공즉시색 수상행식 역부여시',
+ k:'사리자여, 물질(색)이 공과 다르지 않고 공이 물질과 다르지 않으며, 물질이 곧 공이요 공이 곧 물질이다. 느낌·생각·의지·의식도 또한 이와 같다.',
+ z:'"색즉시공 공즉시색" — 눈에 보이는 모든 것은 인연 따라 잠시 모인 것이라 실체가 없고(공), 그렇게 실체가 없기에 또 무엇이든 될 수 있습니다. 파도와 바닷물이 둘이 아닌 것과 같습니다.',
+ e:'Shariputra, form does not differ from emptiness; emptiness does not differ from form. Form is emptiness; emptiness is form. So too are feeling, perception, mental formations and consciousness.',
+ w:['사리자','색','공','색즉시공','오온']},
+{h:'舍利子 是諸法空相 不生不滅 不垢不淨 不增不減', r:'사리자 시제법공상 불생불멸 불구부정 부증불감',
+ k:'사리자여, 이 모든 법(존재)의 공한 모습은 생겨나지도 사라지지도 않고, 더럽지도 깨끗하지도 않으며, 늘지도 줄지도 않는다.',
+ z:'우리가 "태어남과 죽음", "더러움과 깨끗함", "많고 적음"으로 나누는 것은 마음이 만든 구분일 뿐, 참모습에는 그런 나뉨이 없습니다.',
+ e:'Shariputra, all dharmas are marked by emptiness: they neither arise nor cease, are neither defiled nor pure, neither increase nor decrease.',
+ w:['사리자','법','공']},
+{h:'是故 空中無色 無受想行識 無眼耳鼻舌身意 無色聲香味觸法 無眼界 乃至 無意識界', r:'시고 공중무색 무수상행식 무안이비설신의 무색성향미촉법 무안계 내지 무의식계',
+ k:'그러므로 공 가운데에는 물질도 없고, 느낌·생각·의지·의식도 없으며, 눈·귀·코·혀·몸·뜻도 없고, 모양·소리·냄새·맛·감촉·생각의 대상도 없으며, 눈의 세계도 없고 나아가 의식의 세계까지도 없다.',
+ z:'우리가 보고 듣고 느끼는 모든 것(감각 기관, 대상, 인식)이 고정된 실체가 아님을 하나하나 짚어 주는 대목입니다.',
+ e:'Therefore, in emptiness there is no form, no feeling, perception, mental formations or consciousness; no eye, ear, nose, tongue, body or mind; no sight, sound, smell, taste, touch or object of mind; no realm of eyes, and so on up to no realm of mind-consciousness.',
+ w:['오온','육근','육경','십팔계']},
+{h:'無無明 亦無無明盡 乃至 無老死 亦無老死盡', r:'무무명 역무무명진 내지 무노사 역무노사진',
+ k:'무명(어리석음)도 없고 무명이 다함도 없으며, 나아가 늙고 죽음도 없고 늙고 죽음이 다함도 없다.',
+ z:'괴로움이 생기는 열두 단계(십이연기)조차 붙잡을 실체가 아니라는 뜻입니다. 가르침마저도 집착의 대상이 되면 안 된다는 깊은 말씀입니다.',
+ e:'There is no ignorance and no ending of ignorance, and so on up to no old age and death and no ending of old age and death.',
+ w:['무명','십이연기']},
+{h:'無苦集滅道 無智亦無得 以無所得故', r:'무고집멸도 무지역무득 이무소득고',
+ k:'괴로움·괴로움의 원인·괴로움의 소멸·소멸에 이르는 길(사성제)도 없고, 지혜도 없고 얻음도 없다. 얻을 것이 없기 때문이다.',
+ z:'"무엇을 얻겠다"는 마음까지 내려놓을 때 비로소 참된 자유가 있습니다. 얻을 것이 없음을 아는 것이 최고의 지혜입니다.',
+ e:'There is no suffering, origin, cessation or path; no wisdom and no attainment, because there is nothing to attain.',
+ w:['사성제']},
+{h:'菩提薩埵 依般若波羅蜜多故 心無罣礙 無罣礙故 無有恐怖 遠離顚倒夢想 究竟涅槃', r:'보리살타 의반야바라밀다고 심무가애 무가애고 무유공포 원리전도몽상 구경열반',
+ k:'보살은 반야바라밀다에 의지하므로 마음에 걸림이 없고, 걸림이 없으므로 두려움이 없어서, 뒤바뀐 헛된 생각을 멀리 떠나 마침내 열반에 이른다.',
+ z:'집착이 없으면 마음에 걸리는 것이 없고, 걸리는 것이 없으면 두려울 것이 없습니다. 반야심경에서 생활에 가장 와닿는 구절입니다.',
+ e:'The bodhisattva, relying on prajna paramita, has no hindrance in the mind; without hindrance there is no fear. Far beyond upside-down, dreamlike views, one reaches ultimate nirvana.',
+ w:['보살','가애','전도몽상','열반']},
+{h:'三世諸佛 依般若波羅蜜多故 得阿耨多羅三藐三菩提', r:'삼세제불 의반야바라밀다고 득아뇩다라삼먁삼보리',
+ k:'과거·현재·미래의 모든 부처님도 반야바라밀다에 의지하므로 가장 높고 바른 깨달음을 얻으셨다.',
+ z:'모든 부처님이 깨달은 방법도 바로 이 지혜(반야)였습니다.',
+ e:'All Buddhas of the three times, relying on prajna paramita, attain anuttara samyak sambodhi — supreme, perfect awakening.',
+ w:['삼세','아뇩다라삼먁삼보리']},
+{h:'故知 般若波羅蜜多 是大神呪 是大明呪 是無上呪 是無等等呪 能除一切苦 眞實不虛', r:'고지 반야바라밀다 시대신주 시대명주 시무상주 시무등등주 능제일체고 진실불허',
+ k:'그러므로 알아라. 반야바라밀다는 크게 신비로운 주문이요, 크게 밝은 주문이요, 위없는 주문이요, 견줄 데 없는 주문이니, 모든 괴로움을 없애며 진실하여 헛되지 않다.',
+ z:'이 지혜는 무엇과도 비교할 수 없는 힘이 있어 모든 괴로움을 없앤다는 찬탄입니다.',
+ e:'Therefore know that prajna paramita is the great divine mantra, the great bright mantra, the supreme mantra, the unequalled mantra, which removes all suffering — true and not false.',
+ w:['주']},
+{h:'故說 般若波羅蜜多呪 卽說呪曰', r:'고설 반야바라밀다주 즉설주왈',
+ k:'그러므로 반야바라밀다의 주문을 말하노니, 곧 주문은 이러하다.',
+ z:'이제 지혜의 핵심을 짧은 주문(진언)으로 들려줍니다.',
+ e:'So proclaim the prajna paramita mantra, which says:',
+ w:['주']},
+{h:'揭諦揭諦 波羅揭諦 波羅僧揭諦 菩提娑婆訶', r:'아제아제 바라아제 바라승아제 모지 사바하',
+ k:'가자, 가자, 저 언덕으로 가자. 모두 함께 저 언덕으로 가자. 깨달음이여, 이루어지이다! (보통 세 번 외움)',
+ z:'진언은 뜻을 번역하지 않고 소리 그대로 외우는 것이 전통입니다. 그 뜻은 "괴로움의 이 언덕에서 깨달음의 저 언덕으로 모두 함께 건너가자"입니다. 한국에서는 揭諦를 "아제", 菩提를 "모지"로 읽습니다.',
+ e:'Gate gate paragate parasamgate bodhi svaha — "Gone, gone, gone beyond, gone altogether beyond — awakening, so be it!" (usually recited three times)',
+ w:['진언','보리']},
+  ]}]
+},
+};
+
+const SOON = {
+  dhamma:{t:'법구경', h:'法句經', about:[['부처님께서 여러 상황에서 하신 짧은 말씀을 423개의 시(게송)로 모은 경전입니다. "미움은 미움으로 그치지 않고, 오직 미움을 버릴 때 그친다" 같은 말씀처럼 생활의 지혜가 가득하여 명심보감과 비슷한 느낌으로 읽을 수 있습니다. 26개의 장(품)으로 되어 있습니다.','A collection of 423 short verses spoken by the Buddha, arranged in 26 chapters. Full of everyday wisdom — "Hatred is never ended by hatred, but by letting go of hatred" — it reads much like the Myeongsim Bogam.']]},
+  chunsu:{t:'천수경', h:'千手經', about:[['천 개의 손과 천 개의 눈으로 중생을 돕는 관세음보살의 큰 자비를 찬탄하는 경전입니다. 한국 절에서 아침저녁 예불과 거의 모든 법회 때 독송하며, 참회와 발원(서원)의 내용이 담겨 있습니다. 가운데의 "신묘장구대다라니"가 유명합니다.','It praises the great compassion of Avalokiteshvara, who helps beings with a thousand hands and eyes. Recited daily in Korean temples, it contains repentance and vows, with the famous Great Compassion Dharani at its center.']]},
+  diamond:{t:'금강경', h:'金剛經', about:[['"금강석(다이아몬드)처럼 단단한 지혜로 모든 번뇌를 끊는 경전"이라는 뜻입니다. "응무소주 이생기심(머무는 바 없이 마음을 내라)"이라는 구절로 유명하며, 한국 조계종의 근본 경전입니다. 집착을 내려놓는 공(空)의 지혜를 깊이 다룹니다.','"The sutra of wisdom as hard as diamond that cuts through all afflictions." Famous for the line "Give rise to a mind that abides nowhere," it is the fundamental scripture of Korea\'s Jogye Order.']]},
+};
+
+// 용어 사전: 키 → [한자, 뜻(한), 영어 이름, 영어 설명]
+const GLOSS = {
+ '초심':['初心','처음 깨달음을 구하는 마음을 낸 사람. 또는 그 처음 마음.','Beginner\'s mind','One who has just aspired to awakening, or that first aspiration itself.'],
+ '악우':['惡友','나쁜 길로 이끄는 벗.','Bad companion','A friend who leads one in the wrong direction.'],
+ '선우':['善友','바른 길로 이끌어 주는 좋은 벗. 선지식(善知識)이라고도 함.','Good friend','A spiritual friend who guides one on the right path (kalyanamitra).'],
+ '오계':['五戒','불자가 지키는 다섯 가지 계율: 살생·도둑질·삿된 음행·거짓말·음주를 하지 않음.','Five Precepts','No killing, stealing, sexual misconduct, lying or intoxicants.'],
+ '십계':['十戒','사미(예비 스님)가 지키는 열 가지 계율. 오계에 꾸미지 않기, 노래·춤 즐기지 않기, 높고 넓은 자리에 앉지 않기, 때 아닌 때 먹지 않기, 금은보화 갖지 않기가 더해짐.','Ten Precepts','Precepts for novice monks: the Five Precepts plus five more on adornment, entertainment, luxurious seats, eating at proper times and handling money.'],
+ '지범개차':['持犯開遮','계를 지킴(持)·어김(犯)·상황에 따라 열어 줌(開)·막음(遮). 계율을 지혜롭게 운용하는 것.','Keeping, breaking, permitting, restricting','Knowing how to apply precepts wisely according to circumstances.'],
+ '금구':['金口','금빛 입. 부처님의 입, 곧 부처님의 말씀.','Golden mouth','The Buddha\'s mouth — that is, his own words.'],
+ '출가':['出家','집을 떠나 스님이 되는 것.','Leaving home','Renouncing household life to become a monk or nun.'],
+ '대중':['大衆','절에서 함께 수행하는 스님들과 신도들의 무리.','Assembly','The community practicing together at a monastery.'],
+ '아만':['我慢','"내가 낫다"고 여기는 교만한 마음.','Conceit','Arrogance based on the idea of "I" as superior.'],
+ '자비':['慈悲','자(慈)는 즐거움을 주는 마음, 비(悲)는 괴로움을 덜어 주는 마음. 불교의 가장 큰 덕목.','Loving-kindness & compassion','Wishing others happiness (慈) and wishing to relieve their suffering (悲).'],
+ '도반':['道伴','함께 도를 닦는 벗.','Dharma companion','A friend who walks the path of practice with you.'],
+ '시비':['是非','옳음과 그름. 남의 잘잘못을 따지는 일.','Right and wrong','Arguing over who is right or wrong; judging others.'],
+ '재색':['財色','재물과 이성에 대한 욕망.','Wealth and lust','Money and sexual desire — the two great temptations.'],
+ '경행':['經行','좌선하다가 졸음을 쫓고 몸을 풀기 위해 일정한 곳을 천천히 걸으며 하는 수행.','Walking meditation','Slow, mindful walking between sessions of seated meditation.'],
+ '지족':['知足','만족할 줄 앎. 욕심을 줄이고 가진 것에 감사하는 마음.','Contentment','Knowing when one has enough.'],
+ '공양':['供養','부처님께 올리는 공물, 또는 절에서 식사하는 일.','Offering / meal','Offerings to the Buddha; also the word for a meal in a temple.'],
+ '잡념':['雜念','이것저것 쓸데없이 떠오르는 생각.','Stray thoughts','Random, distracting thoughts.'],
+ '도업':['道業','도를 닦는 일. 깨달음을 향한 수행.','Work of the path','Practice aimed at awakening.'],
+ '반야심경':['般若心經','지혜(반야)의 핵심을 260자에 담은 경전. 이 앱의 초급 2번째 경전.','Heart Sutra','The 260-character sutra on the heart of wisdom.'],
+ '삼륜청정':['三輪淸淨','주는 이·받는 이·주고받는 물건, 세 가지가 모두 깨끗하여 집착이 없음.','Purity of the three wheels','Giver, receiver and gift are all free of clinging.'],
+ '분수':['焚修','향을 사르고(焚) 닦음(修). 예불과 기도 수행.','Incense and practice','Temple services and devotional practice.'],
+ '예불':['禮佛','부처님께 예배하는 의식. 절에서는 새벽과 저녁에 함.','Buddhist service','Ritual of paying homage to the Buddha, held at dawn and evening.'],
+ '찬패':['讚唄','부처님을 찬탄하는 노래. 범패(梵唄)라고도 함.','Hymns','Chanted praises of the Buddha (beompae).'],
+ '반연':['攀緣','마음이 바깥 대상에 매달려 끌려다니는 것.','Clinging to objects','The mind grasping and being pulled by external objects.'],
+ '죄업':['罪業','잘못된 행동으로 지은 업과 그로 인한 장애.','Karmic obstruction','Hindrances created by wrongful deeds.'],
+ '참회':['懺悔','지난 잘못을 뉘우치고(懺) 다시 짓지 않겠다고 다짐함(悔).','Repentance','Regretting past wrongs and resolving not to repeat them.'],
+ '이참사참':['理懺事懺','이참: 죄의 본성이 공함을 깨닫는 참회. 사참: 절·염불 등 몸과 입으로 하는 참회.','Repentance in principle & practice','Realizing the empty nature of wrongdoing (principle); repenting through bows and chanting (practice).'],
+ '진성':['眞性','변하지 않는 참된 성품. 불성(佛性).','True nature','The unchanging true nature; Buddha-nature.'],
+ '연기':['緣起','모든 것은 원인과 조건(인연)이 모여 생겨나고, 흩어지면 사라진다는 불교의 근본 진리.','Dependent origination','All things arise from causes and conditions and cease when they disperse.'],
+ '감응':['感應','정성에 부처님이 응답하심.','Response','The Buddha\'s response to sincere practice.'],
+ '불사':['佛事','절을 짓거나 법회를 여는 등 부처님을 위한 좋은 일.','Buddhist works','Meritorious activities such as building temples or holding services.'],
+ '주지':['住持','절을 책임지고 운영하는 스님.','Abbot','The monk in charge of a temple.'],
+ '정념':['正念','바른 생각. 지금 이 순간을 놓치지 않고 깨어 있는 마음. 팔정도의 하나.','Right mindfulness','Awareness of the present moment; one of the Eightfold Path.'],
+ '무애행':['無礙行','걸림 없는 행동. 깨달은 이의 자유로운 행동이지만, 흉내만 내며 계율을 어기는 것을 경계함.','Unhindered conduct','Free action of the awakened — warned against when imitated as an excuse to break precepts.'],
+ '사미':['沙彌','십계를 받은 예비 스님.','Novice','A novice monk who has received the Ten Precepts.'],
+ '종사':['宗師','가르침의 으뜸이 되는 큰스님.','Master','A great teacher of the tradition.'],
+ '법문':['法門','부처님의 가르침. 또는 스님이 설하는 가르침.','Dharma talk','The Buddha\'s teaching, or a talk given by a teacher.'],
+ '보리':['菩提','깨달음. 산스크리트어 "보디(bodhi)"의 소리 번역. 한국 진언에서는 "모지"로 읽음.','Bodhi','Awakening, enlightenment.'],
+ '생사':['生死','태어나고 죽는 괴로움이 끝없이 되풀이되는 것(윤회).','Birth and death','The endless cycle of rebirth (samsara).'],
+ '선각':['先覺','먼저 깨달은 사람. 스승.','Those awakened before','Teachers who awakened earlier.'],
+ '정신':['正信','바른 믿음.','Right faith','Correct, well-founded faith.'],
+ '무시':['無始','시작을 알 수 없는 아득한 옛날부터.','Beginningless','Since time without beginning.'],
+ '삼독':['三毒','마음을 해치는 세 가지 독: 탐욕(貪)·성냄(瞋)·어리석음(癡).','Three poisons','Greed, anger and delusion.'],
+ '방편':['方便','깨달음으로 이끌기 위한 여러 가지 지혜로운 수단.','Skillful means','Wise methods used to lead beings to awakening.'],
+ '지혜':['智慧','사물의 참모습을 바르게 보는 힘. 반야(般若).','Wisdom','Seeing things as they truly are (prajna).'],
+ '불퇴전':['不退轉','수행에서 물러서지 않음.','Non-retrogression','Never turning back from the path.'],
+ '정혜':['定慧','선정(定, 고요히 집중된 마음)과 지혜(慧). 지눌 스님은 이 둘을 함께 닦으라고 가르침(정혜쌍수).','Concentration and wisdom','Meditative calm and insight, cultivated together.'],
+ '견성':['見性','자기 마음의 참된 성품을 봄. 곧 깨달음.','Seeing one\'s nature','Seeing the true nature of one\'s own mind — awakening.'],
+ '중생':['衆生','깨닫지 못하고 괴로움 속에 사는 모든 생명.','Sentient beings','All living beings not yet awakened.'],
+ '복전':['福田','복을 심는 밭. 공경하고 베풀면 복이 자라는 대상.','Field of blessings','Those to whom offerings bring great merit.'],
+ '지눌':['知訥','고려의 큰스님(1158~1210). 보조국사. 송광사에서 정혜결사를 이끌고 한국 선불교의 기틀을 세움.','Jinul','Great Korean Seon master of Goryeo; founder of the Jogye tradition at Songgwangsa.'],
+ '마하':['摩訶','"크다, 위대하다"는 뜻의 산스크리트어 소리 번역.','Maha','"Great" in Sanskrit.'],
+ '반야':['般若','지혜. 산스크리트어 "프라즈냐(prajna)"의 소리 번역. 사물의 참모습을 꿰뚫어 보는 지혜.','Prajna','Wisdom that sees the true nature of things.'],
+ '바라밀다':['波羅蜜多','"저 언덕(깨달음)으로 건너감", 또는 "완성"이라는 뜻. 줄여서 바라밀.','Paramita','"Crossing to the other shore"; perfection.'],
+ '관자재보살':['觀自在菩薩','관세음보살의 다른 이름. 세상을 자유자재로 살펴 중생을 구하는 자비의 보살.','Avalokiteshvara','The bodhisattva of compassion (Gwanseeum).'],
+ '보살':['菩薩','보리살타(菩提薩埵)의 줄임말. 깨달음을 구하면서 동시에 중생을 돕는 수행자.','Bodhisattva','One who seeks awakening while helping all beings.'],
+ '오온':['五蘊','나를 이루는 다섯 가지 무더기: 색(몸·물질)·수(느낌)·상(생각·이미지)·행(의지·작용)·식(의식).','Five aggregates','Form, feeling, perception, mental formations, consciousness.'],
+ '공':['空','모든 것은 인연 따라 생겨나 고정된 실체가 없다는 뜻. "아무것도 없다"가 아니라 "고정된 것이 없다".','Emptiness (shunyata)','Things lack fixed, independent existence — not nothingness, but no fixed self.'],
+ '사리자':['舍利子','사리불(舍利弗). 부처님의 십대제자 가운데 지혜가 가장 뛰어난 제자.','Shariputra','The Buddha\'s disciple foremost in wisdom.'],
+ '색':['色','눈에 보이고 만질 수 있는 물질과 몸. (색깔이라는 뜻이 아님)','Form (rupa)','Matter and the physical body (not "color").'],
+ '색즉시공':['色卽是空','"물질이 곧 공이다". 반야심경의 가장 유명한 구절.','Form is emptiness','The most famous line of the Heart Sutra.'],
+ '법':['法','① 부처님의 가르침 ② 세상의 모든 존재와 현상. 반야심경의 "제법"은 ②의 뜻.','Dharma','(1) The teaching; (2) all phenomena.'],
+ '육근':['六根','여섯 감각 기관: 눈·귀·코·혀·몸·뜻.','Six sense organs','Eye, ear, nose, tongue, body, mind.'],
+ '육경':['六境','여섯 감각 대상: 모양·소리·냄새·맛·감촉·생각의 대상.','Six sense objects','Sight, sound, smell, taste, touch, mental objects.'],
+ '십팔계':['十八界','육근 + 육경 + 육식(여섯 가지 인식) = 18가지 세계. 우리가 경험하는 모든 것.','Eighteen realms','Six organs, six objects and six consciousnesses.'],
+ '무명':['無明','밝지 못함. 진리를 모르는 근본 어리석음. 모든 괴로움의 뿌리.','Ignorance','Fundamental not-knowing; the root of all suffering.'],
+ '십이연기':['十二緣起','무명에서 시작해 늙음·죽음에 이르기까지 괴로움이 생겨나는 12단계.','Twelve links','The twelve links of dependent origination, from ignorance to old age and death.'],
+ '사성제':['四聖諦','네 가지 거룩한 진리: 고(괴로움)·집(원인)·멸(소멸)·도(길).','Four Noble Truths','Suffering, its origin, its cessation and the path.'],
+ '가애':['罣礙','걸림. 마음이 무엇에 걸려 막히는 것.','Hindrance','Obstruction of the mind.'],
+ '전도몽상':['顚倒夢想','거꾸로 뒤바뀐 꿈같은 생각. 무상한 것을 영원하다고, 내가 아닌 것을 나라고 여기는 착각.','Upside-down dream thinking','Deluded views, like taking the impermanent as permanent.'],
+ '열반':['涅槃','번뇌의 불이 꺼진 완전한 평화. 깨달음의 경지.','Nirvana','Perfect peace when the fire of afflictions is extinguished.'],
+ '삼세':['三世','과거·현재·미래.','Three times','Past, present and future.'],
+ '아뇩다라삼먁삼보리':['阿耨多羅三藐三菩提','"위없이 바르고 완전한 깨달음". 부처님의 깨달음.','Anuttara samyak sambodhi','Supreme, perfect awakening.'],
+ '주':['呪','주문. 진언.','Mantra','A sacred phrase.'],
+ '진언':['眞言','참된 말. 뜻을 번역하지 않고 소리 그대로 외우는 신비한 말씀(만트라).','Mantra','"True words" recited in their original sound.'],
+ '삼보':['三寶','불교의 세 보배: 불(부처님)·법(가르침)·승(스님과 대중).','Three Jewels','Buddha, Dharma, Sangha.'],
+ '팔정도':['八正道','괴로움을 없애는 여덟 가지 바른 길.','Eightfold Path','Right view, intention, speech, action, livelihood, effort, mindfulness, concentration.'],
+ '삼장':['三藏','경장·율장·논장. 불교 경전 전체.','Tripitaka','The three baskets: sutra, vinaya, abhidharma.'],
+};
+
+</script>
+<script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem('sdbg_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('sdbg_'+k,JSON.stringify(v))}catch(e){}}};
+let S=Object.assign({lang:'ko',fs:1,showH:true,showR:true,showZ:true,study:false,rate:.9},store.get('set',{}));
+let favs=new Set(store.get('favs',[]));
+const EN=()=>S.lang==='en',BOTH=()=>S.lang==='both',KO=()=>S.lang!=='en';
+const L=(k,e)=>EN()?e:k;
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function saveSet(){store.set('set',S);applySet()}
+function applySet(){document.documentElement.style.setProperty('--fs',S.fs);document.documentElement.lang=EN()?'en':'ko';
+  const b=document.body.classList;b.toggle('hide-h',!S.showH);b.toggle('hide-r',!S.showR);b.toggle('hide-z',!S.showZ);b.toggle('study',S.study)}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1500)}
+function hl(t,q){const s=esc(t);if(!q)return s;const qq=esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return s.replace(new RegExp(qq,'gi'),m=>'<mark>'+m+'</mark>')}
+// 모든 구절 목록
+const ALL=[];
+for(const sid in SUTRAS){SUTRAS[sid].parts.forEach((p,pi)=>p.items.forEach((it,ii)=>ALL.push({sid,pi,ii,it,id:sid+'.'+pi+'.'+ii})))}
+const byId=id=>ALL.find(x=>x.id===id);
+function where(x){const s=SUTRAS[x.sid],p=s.parts[x.pi];const nm=s.parts.length>1?(EN()?p.te:p.t):(EN()?s.te:s.t);return EN()?`${nm}, No. ${x.ii+1}`:`${nm} ${x.ii+1}번째 구절`}
+function termChips(w){if(!w||!w.length)return'';return `<div class="terms">${w.filter(k=>GLOSS[k]).map(k=>`<button class="term" data-term="${esc(k)}">📖 ${EN()?esc(GLOSS[k][2]):esc(k)}</button>`).join('')}</div>`}
+function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span class="num">${x.ii+1}</span>`;
+  return `<div class="card${opt.today?' today':''}" id="c${x.id.replace(/\./g,'_')}">
+  ${opt.today?`<div class="lbl"><span>🪷 ${L('오늘의 한 구절','Verse of the Day')}</span><a href="#/p/${x.sid}/${x.pi}" style="color:var(--muted);font-weight:400">${esc(where(x))}</a></div>`:''}
+  <div class="h">${n}${hl(it.h,q)}</div>
+  <div class="r">${hl(it.r,q)}</div>
+  ${KO()?`<div class="k">${hl(it.k,q)}</div>`:''}
+  ${KO()&&it.z?`<div class="ez"><span class="el">💡 ${L('쉬운 풀이','Easy explanation')}</span>${hl(it.z,q)}</div>`:''}
+  ${(EN()||BOTH())?`<div class="en">${hl(it.e,q)}</div>`:''}
+  ${termChips(it.w)}
+  <div class="meta">${opt.where?`<a href="#/p/${x.sid}/${x.pi}">${esc(where(x))}</a>`:'<span></span>'}
+  <button class="say" data-say="${x.id}">🔊 ${L('듣기','Listen')}</button>
+  <button class="star${favs.has(x.id)?' on':''}" data-fav="${x.id}" aria-label="star">${favs.has(x.id)?'★':'☆'}</button></div></div>`}
+function aboutBox(arr,title){return `<div class="about">${title?`<h3>${esc(title)}</h3>`:''}${arr.map(([k,e])=>(KO()?`<p>${esc(k)}</p>`:'')+((EN()||BOTH())?`<p class="en2">${esc(e)}</p>`:'')).join('')}</div>`}
+function dayIdx(){const d=new Date();const n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return ((n*7919)%ALL.length+ALL.length)%ALL.length}
+function langSeg(){return `<div class="seg" id="langSeg">${[['ko','한국어'],['en','English'],['both','함께 Both']].map(([v,l])=>`<button data-lang="${v}" class="${S.lang==v?'on':''}">${l}</button>`).join('')}</div>`}
+const TABS=[['#/','🏠','처음','Home'],['#/path','🪷','공부길','Path'],['#/gloss','📖','용어','Terms'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
+function tabs(){const h=location.hash||'#/';const cur=h==='#/'?'#/':'#/'+(h.slice(2).split('/')[0]);
+  const map={'#/intro':'#/path','#/s':'#/path','#/p':'#/path','#/soon':'#/path','#/chant':'#/path'};const c=map[cur]||cur;
+  $('#tabs').innerHTML=TABS.map(([hr,i,k,e])=>`<button data-go="${hr}" class="${c==hr?'on':''}"><span class="i">${i}</span>${L(k,e)}</button>`).join('')}
+function stepBtn(p,i){const lv=LEVELS[p.lv];return `<button class="step${p.ready?'':' soon'}" data-go="${p.id==='intro'?'#/intro':p.ready?'#/s/'+p.id:'#/soon/'+p.id}">
+ <span class="no">${i}</span><span class="tt"><b>${esc(L(p.t,p.te))}</b>${KO()?`<span class="hz">${p.h}</span>`:''}${p.ready?'':`<span class="soontag">${L('준비 중','Coming soon')}</span>`}
+ <small><span class="badge lv${p.lv}">${L(lv[0],lv[1])}</span>${esc(L(p.d,p.de))}</small></span><span class="go">›</span></button>`}
+const V={};
+function setHead(t,back){$('#ttl').textContent=t;$('#back').style.visibility=back?'visible':'hidden'}
+function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split('/');const app=$('#app');let html='';
+ if(!p[0]){setHead(L('소도불경공부','Sodo Sutra Study'),false);
+  html=`<div class="hero"><div class="lotus">🪷</div><h2>${L('소도불경공부','Sodo Sutra Study')}</h2><p>${L('초급부터 차근차근 — 뜻을 알고 읽는 불경','Step by step from the beginning — reading the sutras with understanding')}</p></div>
+  <div class="langbar">${langSeg()}</div>
+  <div class="sec">${L('공부 길 — 이 순서대로 공부하세요','Study Path — follow this order')}</div>
+  ${PATH.map((x,i)=>stepBtn(x,i)).join('')}
+  <div class="foot">${L('경전 원문은 공공 영역의 고전이며, 해석·풀이·영어 번역은 이 앱을 위해 새로 쓴 것입니다.','Original texts are public-domain classics; translations and explanations were newly written for this app.')}<br>Shrine of Korean Shaman Sacred SODO</div>`}
+ else if(p[0]==='path'){setHead(L('공부 길','Study Path'),false);html=`<div class="chhead"><div class="hz">修行之道</div><div class="d">${L('입문 → 초급 → 중급 → 고급 순서로 올라갑니다','From introduction to beginner, intermediate and advanced')}</div></div>${PATH.map((x,i)=>stepBtn(x,i)).join('')}`}
+ else if(p[0]==='intro'){setHead(L('불경이란?','What Are the Sutras?'),true);html=`<div class="chhead"><div class="hz">佛經入門</div><div class="d">${L('불경 공부를 시작하기 전에 알아 두면 좋은 이야기','Good to know before you begin')}</div></div>`+INTRO.map(a=>aboutBox(a.p,L(a.t,a.te))).join('')+`<div class="pager"><button data-go="#/s/chobal">${L('첫 경전 시작하기: 초발심자경문 ›','Start the first text: Chobalsim ›')}</button></div>`}
+ else if(p[0]==='s'){const s=SUTRAS[p[1]];if(!s){location.hash='#/';return}setHead(L(s.t,s.te),true);
+  html=`<div class="chhead"><div class="hz">${s.h}</div><div class="d">${esc(L(s.t,s.te))}</div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}`;
+  if(s.parts.length===1){const pt=s.parts[0];html+=`<div class="chhead"><div class="by">${esc(L(pt.by,pt.bye))}</div></div>`;if(s.chant)html+=`<div class="pager"><button class="alt btn" data-go="#/chant/${p[1]}">📿 ${L('독송 모드 (전체 이어서 보기)','Chanting mode (full text)')}</button></div>`;
+   html+=ALL.filter(x=>x.sid===p[1]).map(x=>card(x)).join('')}
+  else{html+=`<div class="sec">${L('세 편의 글로 이루어져 있습니다','Made up of three works')}</div>`+s.parts.map((pt,i)=>`<button class="step${pt.soon?' soon':''}" data-go="${pt.soon?'':'#/p/'+p[1]+'/'+i}" ${pt.soon?'data-soon="1"':''}><span class="no">${i+1}</span><span class="tt"><b>${esc(L(pt.t,pt.te))}</b>${KO()?`<span class="hz">${pt.h}</span>`:''}${pt.soon?`<span class="soontag">${L('준비 중','Coming soon')}</span>`:''}<small>${esc(L(pt.by,pt.bye))}</small><small>${esc(L(pt.d,pt.de))}</small></span><span class="go">›</span></button>`).join('')}
+ }
+ else if(p[0]==='p'){const s=SUTRAS[p[1]],pi=+p[2],pt=s&&s.parts[pi];if(!pt){location.hash='#/';return}setHead(L(pt.t,pt.te),true);
+  html=`<div class="chhead"><div class="hz">${pt.h}</div><div class="d">${esc(L(pt.t,pt.te))}</div><div class="by">${esc(L(pt.by,pt.bye))}</div></div>${pt.about?aboutBox(pt.about,L('이 글은?','About this work')):''}`+ALL.filter(x=>x.sid===p[1]&&x.pi===pi).map(x=>card(x)).join('');
+  const nx=s.parts[pi+1];html+=`<div class="pager"><button data-go="#/s/${p[1]}">‹ ${L('목록','Back to list')}</button>${nx?`<button ${nx.soon?'disabled':''} data-go="#/p/${p[1]}/${pi+1}">${esc(L(nx.t,nx.te))}${nx.soon?L(' (준비 중)',' (soon)'):''} ›</button>`:`<button data-go="#/s/heart">${L('다음 경전: 반야심경 ›','Next: Heart Sutra ›')}</button>`}</div>`}
+ else if(p[0]==='chant'){const s=SUTRAS[p[1]];setHead(L(s.t+' 독송',s.te+' — Chant'),true);const its=s.parts[0].items;
+  html=`<div class="chant"><div class="hz" style="font-size:1.3rem;font-weight:700;letter-spacing:.15em">${its[0].h}</div><div class="r" style="font-weight:700">${its[0].r}</div>`+its.slice(1).map(it=>`<div class="ln"><div class="h">${esc(it.h)}</div><div class="r">${esc(it.r)}</div></div>`).join('')+`<div class="ln"><div class="r">(${L('세 번','×3')})</div></div></div><div class="pager"><button class="say" style="flex:1;padding:12px;border-radius:12px" data-chant="${p[1]}">🔊 ${L('한글 음으로 독송 듣기','Listen to the chant')}</button></div>`}
+ else if(p[0]==='soon'){const x=PATH.find(y=>y.id===p[1]),s=SOON[p[1]];if(!x){location.hash='#/';return}setHead(L(x.t,x.te),true);
+  html=`<div class="chhead"><div class="hz">${x.h}</div><div class="d">${esc(L(x.t,x.te))} <span class="badge lv${x.lv}">${L(LEVELS[x.lv][0],LEVELS[x.lv][1])}</span></div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}<div class="empty">🪷<br>${L('본문(원문·해석·풀이·용어)은 다음 단계에서 추가됩니다.','The full text with translations will be added in the next stage.')}</div>`}
+ else if(p[0]==='gloss'){setHead(L('불교 용어 사전','Glossary'),false);html=`<div class="search"><input id="gq" type="search" placeholder="${L('용어 찾기 (예: 공, 보살, 열반)','Find a term')}" value="${esc(V.gq||'')}"></div><div id="gres"></div>`}
+ else if(p[0]==='search'){setHead(L('검색','Search'),false);html=`<div class="search"><input id="q" type="search" placeholder="${L('낱말 입력 (예: 자비, 공, 空)','Type a word')}" value="${esc(V.q||'')}"></div><div id="res"></div>`}
+ else if(p[0]==='fav'){setHead(L('즐겨찾기','Saved'),false);const l=ALL.filter(x=>favs.has(x.id));html=l.length?l.map(x=>card(x,{where:1})).join(''):`<div class="empty">⭐<br>${L('마음에 닿는 구절의 ☆를 눌러 모아 두세요.','Tap ☆ on a verse to save it here.')}</div>`}
+ else if(p[0]==='set'){setHead(L('설정','Settings'),false);
+  const tg=(key,k,e,sk,se)=>`<div class="opt"><div class="t"><b>${L(k,e)}</b><small>${L(sk,se)}</small></div><div class="seg"><button data-tg="${key}" data-v="1" class="${S[key]?'on':''}">${L('켜기','On')}</button><button data-tg="${key}" data-v="0" class="${!S[key]?'on':''}">${L('끄기','Off')}</button></div></div>`;
+  html=`<div class="opt"><div class="t"><b>${L('언어','Language')}</b><small>Language</small></div>${langSeg()}</div>
+  <div class="opt"><div class="t"><b>${L('글자 크기','Text size')}</b></div><div class="seg">${[[.9,'작게'],[1,'보통'],[1.15,'크게'],[1.3,'아주 크게']].map(([v,l])=>`<button data-fs="${v}" class="${S.fs==v?'on':''}">${L(l,{0.9:'S',1:'M',1.15:'L',1.3:'XL'}[v])}</button>`).join('')}</div></div>
+  ${tg('showH','원문(한문) 보기','Show original','한자 원문','Classical Chinese text')}
+  ${tg('showR','한글 음 보기','Show Korean reading','한자를 한글로 읽은 소리','Korean pronunciation')}
+  ${tg('showZ','쉬운 풀이 보기','Show easy explanation','요즘 말로 쉽게 푼 설명','Plain-language notes')}
+  ${tg('study','외우기 연습','Memorize mode','해석을 가려 두고 눌러서 확인','Hide translations; tap to reveal')}
+  <div class="opt"><div class="t"><b>${L('읽어 주는 속도','Speech speed')}</b></div><div class="seg">${[[.7,'느리게'],[.9,'보통'],[1.1,'빠르게']].map(([v,l])=>`<button data-rate="${v}" class="${S.rate==v?'on':''}">${L(l,{0.7:'Slow',0.9:'Normal',1.1:'Fast'}[v])}</button>`).join('')}</div></div>
+  <div class="about"><h3>${L('휴대폰에 앱으로 설치하기','Install on your phone')}</h3><p>${L('갤럭시(크롬): 오른쪽 위 ⋮ → "홈 화면에 추가" 또는 "앱 설치"','Android (Chrome): ⋮ menu → "Add to Home screen" / "Install app"')}</p><p>${L('아이폰(사파리): 아래쪽 공유 버튼(□↑) → "홈 화면에 추가"','iPhone (Safari): Share (□↑) → "Add to Home Screen"')}</p></div>
+  <div class="foot">소도불경공부 v1 · ${ALL.length}${L('구절',' verses')} · ${Object.keys(GLOSS).length}${L('개 용어',' terms')}</div>`}
+ else{location.hash='#/';return}
+ app.innerHTML=html;tabs();window.scrollTo(0,0);
+ if(p[0]==='search')doSearch(V.q||''),$('#q').addEventListener('input',e=>doSearch(e.target.value));
+ if(p[0]==='gloss')doGloss(V.gq||''),$('#gq').addEventListener('input',e=>doGloss(e.target.value));
+}
+function doSearch(q){V.q=q;q=q.trim();const r=$('#res');if(!q){r.innerHTML=`<div class="empty">${L('찾고 싶은 낱말을 입력하세요.<br>예: 자비, 공, 열반, 空','Type a word.<br>e.g. compassion, emptiness, 空')}</div>`;return}
+ const ql=q.toLowerCase();const l=ALL.filter(x=>[x.it.h,x.it.r,x.it.k,x.it.z,x.it.e].join(' ').toLowerCase().includes(ql));
+ r.innerHTML=`<div class="sec">${l.length}${L('개 구절',' verses')}</div>`+(l.length?l.map(x=>card(x,{q,where:1})).join(''):`<div class="empty">${L('찾는 구절이 없습니다. 📖 용어 탭도 찾아보세요.','No verses found. Try the Terms tab.')}</div>`)}
+function glossHTML(k,q){const g=GLOSS[k];return `<div class="gl"><b>${hl(k,q)}</b><span class="kk">${hl(g[0],q)}</span>${KO()?`<p>${hl(g[1],q)}</p>`:''}${(EN()||BOTH())?`<p class="en2"><b style="font-size:1em">${hl(g[2],q)}</b> — ${hl(g[3],q)}</p>`:''}</div>`}
+function doGloss(q){V.gq=q;q=q.trim();const ql=q.toLowerCase();const ks=Object.keys(GLOSS).sort((a,b)=>a.localeCompare(b,'ko'));
+ const l=q?ks.filter(k=>(k+' '+GLOSS[k].join(' ')).toLowerCase().includes(ql)):ks;$('#gres').innerHTML=`<div class="sec">${l.length}${L('개 용어',' terms')}</div>`+l.map(k=>glossHTML(k,q)).join('')}
+function showTerm(k){const g=GLOSS[k];if(!g)return;$('#popbox').innerHTML=`<b>${esc(k)}</b><span class="kk">${esc(g[0])}</span>${KO()?`<p>${esc(g[1])}</p>`:''}${(EN()||BOTH())?`<p class="en2"><b style="font-size:1em">${esc(g[2])}</b> — ${esc(g[3])}</p>`:''}<button class="btn" id="popx">${L('닫기','Close')}</button>`;$('#pop').classList.add('on')}
+// 소리 내어 읽기
+let speakingId=null;
+function ttsStop(){try{speechSynthesis.cancel()}catch(e){}speakingId=null;document.querySelectorAll('.say.on').forEach(b=>{b.classList.remove('on')});document.querySelectorAll('.card.speaking').forEach(c=>c.classList.remove('speaking'))}
+function voice(lang){try{return speechSynthesis.getVoices().find(v=>v.lang&&v.lang.replace('_','-').toLowerCase().startsWith(lang))||null}catch(e){return null}}
+function speakList(parts,btn,cardEl){ttsStop();if(!('speechSynthesis' in window)){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}
+ btn&&btn.classList.add('on');cardEl&&cardEl.classList.add('speaking');let i=0;const tok={};speakingId=tok;
+ const next=()=>{if(speakingId!==tok)return;if(i>=parts.length){ttsStop();return}const [t,l]=parts[i++];const u=new SpeechSynthesisUtterance(t);u.lang=l;const v=voice(l.slice(0,2));if(v)u.voice=v;u.rate=S.rate;u.onend=next;u.onerror=next;speechSynthesis.speak(u)};next()}
+function sayItem(id,btn){if(btn.classList.contains('on')){ttsStop();return}const x=byId(id);const P=[];
+ if(KO()){P.push([x.it.r,'ko-KR']);P.push([x.it.k,'ko-KR'])}if(EN()||BOTH())P.push([x.it.e,'en-US']);speakList(P,btn,btn.closest('.card'))}
+document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#pop');if(!t)return;
+ if(t.id==='pop'&&e.target===t){t.classList.remove('on');return}
+ if(t.id==='popx'){$('#pop').classList.remove('on');return}
+ if(t.dataset.go!==undefined){if(t.dataset.soon){toast(L('다음 단계에서 추가됩니다 🪷','Coming in the next stage 🪷'));return}if(t.dataset.go)location.hash=t.dataset.go;return}
+ if(t.dataset.term){showTerm(t.dataset.term);return}
+ if(t.dataset.fav){const id=t.dataset.fav;if(favs.has(id)){favs.delete(id);toast(L('즐겨찾기에서 뺐습니다','Removed'))}else{favs.add(id);toast(L('⭐ 즐겨찾기에 담았습니다','⭐ Saved'))}store.set('favs',[...favs]);document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{b.classList.toggle('on',favs.has(id));b.textContent=favs.has(id)?'★':'☆'});return}
+ if(t.dataset.say){sayItem(t.dataset.say,t);return}
+ if(t.dataset.chant){if(t.classList.contains('on')){ttsStop();return}const its=SUTRAS[t.dataset.chant].parts[0].items;const P=its.map(it=>[it.r,'ko-KR']);const last=its[its.length-1].r;P.push([last,'ko-KR'],[last,'ko-KR']);speakList(P,t);return}
+ if(t.dataset.lang){S.lang=t.dataset.lang;saveSet();route();return}
+ if(t.dataset.fs){S.fs=+t.dataset.fs;saveSet();route();return}
+ if(t.dataset.rate){S.rate=+t.dataset.rate;saveSet();route();return}
+ if(t.dataset.tg){S[t.dataset.tg]=t.dataset.v==='1';saveSet();route();return}
+ if(t.classList.contains('k')||t.classList.contains('en')){if(S.study)t.classList.toggle('show');return}
+});
+$('#back').onclick=()=>{if(history.length>1)history.back();else location.hash='#/'};
+$('#rnd').onclick=()=>{const x=ALL[Math.floor(Math.random()*ALL.length)];location.hash='#/p/'+x.sid+'/'+x.pi;setTimeout(()=>{const el=document.getElementById('c'+x.id.replace(/\./g,'_'));if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('speaking');setTimeout(()=>el.classList.remove('speaking'),1600)}},80)};
+window.addEventListener('hashchange',route);
+try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+applySet();route();
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!/claude|anthropic/.test(location.host)){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
