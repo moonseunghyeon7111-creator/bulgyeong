@@ -941,7 +941,7 @@ function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span cl
   return `<div class="card${opt.today?' today':''}" id="c${x.id.replace(/\./g,'_')}">
   ${opt.today?`<div class="lbl"><span>🪷 ${L('오늘의 한 구절','Verse of the Day')}</span><a href="#/p/${x.sid}/${x.pi}" style="color:var(--muted);font-weight:400">${esc(where(x))}</a></div>`:''}
   ${it.ti?`<div class="ti">${esc(it.ti)}${it.th?` <span class="thz">${it.th}</span>`:''}</div>`:''}
-  ${pali?(S.lang==='ko'?`<div class="pn">${n}</div>`:`<div class="plbl">${L('빨리어 원문','Pali original')}</div><div class="h pali">${n}${hl(it.h,q)}</div>`):`<div class="h">${n}${lk(it.h,q,used,'h')}</div>`}
+  ${pali?`<div class="plbl">${L('빠알리어 원문','Pali original')}</div><div class="h pali">${n}${hl(it.h,q)}</div>`:`<div class="h">${n}${lk(it.h,q,used,'h')}</div>`}
   ${it.r?`<div class="r">${hl(it.r,q)}</div>`:''}
   ${KO()?`<div class="k">${lk(it.k,q,used,'k')}</div>`:''}
   ${KO()&&it.z?`<div class="ez"><span class="el">💡 ${L('쉬운 풀이','Easy explanation')}</span>${lk(it.z,q,used,'k')}</div>`:''}
