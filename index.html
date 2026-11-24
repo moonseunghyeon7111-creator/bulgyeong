@@ -46,7 +46,8 @@ nav.tabs button.on{color:#ffe0a0}
 .en{font-family:Georgia,"Times New Roman",serif;font-size:calc(1.02rem * var(--fs));line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:#33465e}
 .terms{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .term{background:#f6e6c2;border:1px solid #e2c98f;color:#6b3f12;border-radius:14px;padding:2px 10px;font-size:.85rem;cursor:pointer}
-.h.pali{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic;font-size:calc(1.05rem * var(--fs));letter-spacing:0;color:#4a3528}
+.h.pali{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic;font-size:calc(.92rem * var(--fs));line-height:1.6;letter-spacing:0;color:#857160}.h.pali .num{font-style:normal;font-size:1.1rem}
+.plbl{font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:8px;display:inline-block;padding:0 7px;margin-bottom:4px}.pn{margin-bottom:-4px}.pn .num{font-size:1.15rem}
 .ti{color:var(--red);font-weight:700;font-size:.92rem;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--line);word-break:keep-all}.ti .thz{color:var(--muted);font-weight:400;font-size:.85rem}
 .uw{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 22px;margin:8px 0}
 .usec{padding:12px 6px;border-radius:10px;text-align:center}.usec+.usec{border-top:1px dashed var(--line)}
@@ -940,7 +941,7 @@ function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span cl
   return `<div class="card${opt.today?' today':''}" id="c${x.id.replace(/\./g,'_')}">
   ${opt.today?`<div class="lbl"><span>🪷 ${L('오늘의 한 구절','Verse of the Day')}</span><a href="#/p/${x.sid}/${x.pi}" style="color:var(--muted);font-weight:400">${esc(where(x))}</a></div>`:''}
   ${it.ti?`<div class="ti">${esc(it.ti)}${it.th?` <span class="thz">${it.th}</span>`:''}</div>`:''}
-  <div class="h${pali?' pali':''}">${n}${pali?hl(it.h,q):lk(it.h,q,used,'h')}</div>
+  ${pali?(S.lang==='ko'?`<div class="pn">${n}</div>`:`<div class="plbl">${L('빨리어 원문','Pali original')}</div><div class="h pali">${n}${hl(it.h,q)}</div>`):`<div class="h">${n}${lk(it.h,q,used,'h')}</div>`}
   ${it.r?`<div class="r">${hl(it.r,q)}</div>`:''}
   ${KO()?`<div class="k">${lk(it.k,q,used,'k')}</div>`:''}
   ${KO()&&it.z?`<div class="ez"><span class="el">💡 ${L('쉬운 풀이','Easy explanation')}</span>${lk(it.z,q,used,'k')}</div>`:''}
