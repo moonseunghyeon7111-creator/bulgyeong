@@ -48,6 +48,13 @@ nav.tabs button.on{color:#ffe0a0}
 .term{background:#f6e6c2;border:1px solid #e2c98f;color:#6b3f12;border-radius:14px;padding:2px 10px;font-size:.85rem;cursor:pointer}
 .h.pali{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic;font-size:calc(1.05rem * var(--fs));letter-spacing:0;color:#4a3528}
 .ti{color:var(--red);font-weight:700;font-size:.92rem;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--line);word-break:keep-all}.ti .thz{color:var(--muted);font-weight:400;font-size:.85rem}
+.uw{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 22px;margin:8px 0}
+.usec{padding:12px 6px;border-radius:10px;text-align:center}.usec+.usec{border-top:1px dashed var(--line)}
+.usec.speaking{background:#eef2e4;outline:2px solid var(--green)}
+.uti{color:var(--red);font-weight:700;font-size:calc(.95rem * var(--fs));margin-bottom:8px}
+.ul{font-size:calc(1.12rem * var(--fs));line-height:1.95;word-break:keep-all}
+.um{font-size:calc(1.12rem * var(--fs));line-height:1.9;font-weight:700;color:#5a1e14;word-break:keep-all}
+.urep{color:var(--muted);font-size:.85rem}.un{color:#4b6a37;font-size:calc(.9rem * var(--fs));margin-top:6px;word-break:keep-all}
 .hide-h .h,.hide-r .r,.hide-z .ez{display:none}
 .study .k,.study .en{filter:blur(6px);cursor:pointer;transition:filter .2s}
 .study .k.show,.study .en.show{filter:none}
@@ -694,6 +701,62 @@ SUTRAS.diamond={t:'금강경',te:'The Diamond Sutra',h:'金剛般若波羅蜜經
 parts:[{id:'diamond',t:'금강경 본문 (32분)',te:'Text (32 sections)',h:'金剛經',by:'구마라집 번역 (402년경, 요진)',bye:'Translated by Kumarajiva (c. 402)',d:'',de:'',items:MORE.diamond}]};
 PATH.forEach(p=>{if(p.id==='chunsu'||p.id==='diamond')p.ready=true});
 
+// 우리말 경전 — 운율 있는 현대 우리말 독송본 (소도불경공부에서 새로 지음)
+// 각 단락: ti 제목, l 줄들, m 진언(원음 그대로), n 진언의 뜻
+const URIMAL=[
+{id:'heart',t:'우리말 반야심경',h:'般若心經',src:'heart',d:'크나큰 지혜로 저 언덕에 건너가는 마음의 경',
+ intro:'260자 반야심경을 소리 내어 읽기 좋은 우리말 시로 옮겼습니다. 마지막 진언은 전통대로 원래 소리 그대로 외웁니다.',
+ secs:[
+ {ti:'마하반야바라밀다심경',l:['크나큰 지혜로 저 언덕에 건너가는','마음의 경']},
+ {ti:'',l:['관세음보살 깊은 지혜 닦으실 때에','몸과 마음 다섯 무더기 비추어 보니','모두가 텅 비어 실체 없음을 아시고','온갖 괴로움을 건너셨네']},
+ {ti:'',l:['사리자여, 들어 보라','보이는 것 공과 다르지 않고','공은 또한 보이는 것과 다르지 않네','보이는 것이 곧 공이요','공이 곧 보이는 것이니','느낌과 생각, 의지와 앎도','또한 모두 이와 같도다']},
+ {ti:'',l:['사리자여, 모든 것의 텅 빈 참모습은','생겨남도 없고 사라짐도 없으며','더러움도 없고 깨끗함도 없고','늘어남도 없고 줄어듦도 없도다']},
+ {ti:'',l:['그러므로 텅 빈 그 자리에는','보이는 것도 느낌도 생각도 없고','의지도 앎도 없으며','눈도 귀도 코도 혀도 몸도 뜻도 없고','빛깔도 소리도 향기도 맛도','닿음도 생각의 대상도 없어','보는 세계에서 아는 세계까지','그 어디에도 붙잡을 것 없네']},
+ {ti:'',l:['어리석음도 없고','어리석음이 다함도 없으며','늙고 죽음도 없고','늙고 죽음이 다함도 없도다','괴로움도 괴로움의 원인도','괴로움의 사라짐도 그 길도 없으니','지혜도 없고 얻음도 없네','얻을 것이 본래 없기 때문이라']},
+ {ti:'',l:['보살은 이 지혜에 의지하므로','마음에 걸림이 없고','걸림이 없으므로 두려움이 없어','뒤바뀐 꿈 같은 생각 멀리 떠나','마침내 열반에 이르도다']},
+ {ti:'',l:['과거 현재 미래의 모든 부처님도','이 지혜에 의지하여','위없이 바르고 완전한','깨달음을 얻으셨네']},
+ {ti:'',l:['그러므로 알아라','이 지혜는 크게 신비로운 진언이요','크게 밝은 진언이며','위없는 진언이요','견줄 데 없는 진언이라','온갖 괴로움을 없애 주니','참되고 진실하여 헛되지 않도다']},
+ {ti:'',l:['이제 지혜의 진언을 들려주노니','그 진언은 이러하도다']},
+ {ti:'',m:'아제아제 바라아제 바라승아제 모지 사바하',rep:3,n:'가자 가자, 저 언덕으로 가자. 모두 함께 저 언덕으로 가자. 깨달음이여, 이루어지이다!'},
+ ]},
+{id:'chunsu',t:'우리말 천수경',h:'千手經',src:'chunsu',d:'천 개의 손, 천 개의 눈 — 관세음보살의 큰 자비',
+ intro:'아침저녁 예불과 법회에서 독송하는 천수경을 우리말 시로 옮겼습니다. 진언과 다라니는 전통대로 원래 소리 그대로 두고, 아래에 작은 글씨로 뜻을 달았습니다.',
+ secs:[
+ {ti:'입으로 지은 업을 맑히는 진언',m:'수리수리 마하수리 수수리 사바하',rep:3,n:'길하고 길하여라, 크게 길하여라, 지극히 길하여라, 이루어지이다'},
+ {ti:'모든 신을 편안케 하는 진언',m:'나무 사만다 못다남 옴 도로도로 지미 사바하',rep:3,n:'온 누리 안팎의 모든 신들이여, 편안하소서'},
+ {ti:'경을 여는 노래',l:['위없이 깊고 깊은 미묘한 법','백천만 겁 지나도 만나기 어려워라','제가 이제 보고 듣고 받아 지니오니','부처님의 참된 뜻 알게 하소서']},
+ {ti:'법의 곳간을 여는 진언',m:'옴 아라남 아라다',rep:3,n:'진리의 곳간이 열리어지이다'},
+ {ti:'관세음보살 큰 다라니를 청하옵니다',l:['천 개의 손 천 개의 눈','관세음보살님의','넓고 크고 걸림 없는 자비의 마음','큰 다라니를 청하옵니다']},
+ {ti:'',l:['머리 숙여 절하오니 대비하신 관세음이여','원력은 넓고 깊고 거룩한 모습이시라','천 개의 팔로 두루 감싸 지켜 주시고','천 개의 눈빛으로 온 세상 살피시네']},
+ {ti:'',l:['참된 말씀 가운데 비밀한 말씀 펴시고','함이 없는 마음에서 자비를 일으키시어','온갖 바람 어서 빨리 이루어 주시고','모든 죄업 영원히 씻어 주시네']},
+ {ti:'',l:['하늘과 용과 성인들이 함께 지켜 주시니','백천 가지 삼매가 단번에 닦이네','이 다라니 지닌 몸은 빛의 깃발이요','이 다라니 지닌 마음은 신통의 곳간이라']},
+ {ti:'',l:['번뇌의 티끌 씻고 고통 바다 건너기 원하오며','깨달음의 방편문에 뛰어오르기 원하오니','제가 이제 소리 높여 귀의하옵나니','바라는 바 마음대로 원만히 이루어지이다']},
+ {ti:'관세음보살께 올리는 열 가지 바람',l:['대비 관세음께 귀의하오니','모든 법을 어서 빨리 알게 하소서','대비 관세음께 귀의하오니','지혜의 눈 하루빨리 뜨게 하소서','대비 관세음께 귀의하오니','모든 중생 어서 빨리 건지게 하소서','대비 관세음께 귀의하오니','좋은 방편 하루빨리 얻게 하소서','대비 관세음께 귀의하오니','지혜의 배에 어서 빨리 오르게 하소서','대비 관세음께 귀의하오니','고통의 바다 하루빨리 건너게 하소서','대비 관세음께 귀의하오니','계와 선정 지혜의 길 어서 얻게 하소서','대비 관세음께 귀의하오니','열반의 산에 하루빨리 오르게 하소서','대비 관세음께 귀의하오니','함이 없는 집에 어서 들게 하소서','대비 관세음께 귀의하오니','진리의 몸과 하루빨리 하나 되게 하소서']},
+ {ti:'여섯 곳을 향한 서원',l:['제가 만일 칼산을 향하면','칼산이 저절로 꺾여지고','제가 만일 끓는 물을 향하면','끓는 물이 저절로 식어지며','제가 만일 지옥을 향하면','지옥이 저절로 말라 없어지고','제가 만일 굶주린 귀신을 향하면','굶주린 귀신이 저절로 배부르며','제가 만일 아수라를 향하면','악한 마음 저절로 순해지고','제가 만일 짐승 세계를 향하면','저절로 큰 지혜 얻게 하소서']},
+ {ti:'보살님들께 귀의',m:'나무관세음보살마하살 나무대세지보살마하살 나무천수보살마하살 나무여의륜보살마하살 나무대륜보살마하살 나무관자재보살마하살 나무정취보살마하살 나무만월보살마하살 나무수월보살마하살 나무군다리보살마하살 나무십일면보살마하살 나무제대보살마하살 나무본사아미타불',rep:3,n:'관세음보살님과 여러 모습의 관세음, 모든 큰 보살님, 그리고 근본 스승 아미타부처님께 귀의합니다'},
+ {ti:'신묘장구대다라니',m:'나모라 다나다라 야야 나막 알약 바로기제 새바라야 모지 사다바야 마하 사다바야 마하 가로니가야 옴 살바 바예수 다라나 가라야 다사명 나막 까리다바 이맘 알야 바로기제 새바라 다바 니라간타 나막 하리나야 마발다 이사미 살발타 사다남 수반 아예염 살바 보다남 바바말아 미수다감 다냐타 옴 아로계 아로가 마지로가 지가란제 혜혜 하례 마하모지 사다바 사마라 사마라 하리나야 구로구로 갈마 사다야 사다야 도로도로 미연제 마하미연제 다라다라 다린나례 새바라 자라자라 마라 미마라 아마라 몰제 예혜혜 로계 새바라 라아 미사미 나사야 나베 사미사미 나사야 모하 자라 미사미 나사야 호로호로 마라 호로 하례 바나마 나바 사라사라 시리시리 소로소로 못쟈못쟈 모다야 모다야 매다리야 니라간타 가마사 날사남 바라 하라나야 마낙 사바하 싯다야 사바하 마하싯다야 사바하 싯다유예 새바라야 사바하 니라간타야 사바하 바라하 목카싱하 목카야 사바하 바나마 하따야 사바하 자가라 욕다야 사바하 상카 섭나네 모다나야 사바하 마하라 구타다라야 사바하 바마 사간타 이사 시체다 가릿나 이나야 사바하 마가라 잘마 이바 사나야 사바하 나모라 다나다라 야야 나막 알약 바로기제 새바라야 사바하',rep:3,n:'삼보와 크게 자비로우신 관세음보살께 귀의하오니, 모든 두려움에서 건져 주시고 탐욕·성냄·어리석음의 독을 씻어 주시어, 모든 중생이 깨달음에 이르게 하소서. 이루어지이다!'},
+ {ti:'사방을 맑히는 노래',l:['첫째로 동쪽에 감로수 뿌리니 도량이 맑아지고','둘째로 남쪽에 뿌리니 시원함을 얻으며','셋째로 서쪽에 뿌리니 모두 정토 되고','넷째로 북쪽에 뿌리니 길이길이 평안하네']},
+ {ti:'도량을 찬탄하는 노래',l:['도량이 맑고 깨끗하여 티끌 한 점 없으니','삼보님과 하늘 용이 이 땅에 내려오시네','제가 이제 묘한 진언 지니고 외우오니','자비로써 남모르게 지켜 주소서']},
+ {ti:'참회의 노래',l:['제가 옛날부터 지어 온 모든 나쁜 업은','끝없는 탐욕과 성냄과 어리석음 때문이라','몸과 입과 생각으로 지은 것이오니','그 모든 것 제가 이제 참회하옵니다']},
+ {ti:'업장을 녹여 주시는 열두 부처님',m:'나무참제업장 보승장불 보광왕화염조불 일체향화자재력왕불 백억항하사결정불 진위덕불 금강견강소복괴산불 보광월전묘음존왕불 환희장마니보적불 무진향승왕불 사자월불 환희장엄주왕불 제보당마니승광불',n:'업장을 참회하여 녹여 주시는 열두 부처님께 귀의합니다'},
+ {ti:'열 가지 악업 참회',l:['생명 해친 무거운 죄 오늘 참회하옵니다','남의 것 훔친 무거운 죄 오늘 참회하옵니다','삿된 음행 무거운 죄 오늘 참회하옵니다','거짓말한 무거운 죄 오늘 참회하옵니다','꾸며 낸 말 무거운 죄 오늘 참회하옵니다','이간질한 무거운 죄 오늘 참회하옵니다','험한 말 한 무거운 죄 오늘 참회하옵니다','탐내고 집착한 무거운 죄 오늘 참회하옵니다','성내고 미워한 무거운 죄 오늘 참회하옵니다','어리석고 어두운 무거운 죄 오늘 참회하옵니다']},
+ {ti:'',l:['백 겁 동안 쌓아 온 죄','한 생각에 단번에 씻겨 가니','마른 풀을 불이 태우듯','남김없이 사라지도다']},
+ {ti:'',l:['죄는 본래 실체 없어 마음 따라 일어나니','마음이 사라지면 죄도 함께 없어지네','죄도 없고 마음도 사라져 둘 다 텅 비면','이것을 참된 참회라 하네']},
+ {ti:'참회 진언',m:'옴 살바 못자모지 사다야 사바하',rep:3,n:'모든 깨달은 이들이여, 참회를 받아 주소서. 이루어지이다'},
+ {ti:'준제보살 찬탄',l:['준제보살 크신 공덕 고요한 마음으로 늘 외우면','어떤 큰 재난도 이 사람을 해치지 못하네','하늘에서나 사람 세상에서나 부처님 같은 복을 받으리니','이 여의주를 만난 이는 견줄 데 없는 깨달음 반드시 얻으리라']},
+ {ti:'',m:'나무칠구지불모대준제보살',rep:3,n:'칠억 부처님의 어머니, 대준제보살께 귀의합니다'},
+ {ti:'법계를 맑히는 진언',m:'옴 남',rep:3,n:'온 법계가 깨끗해지이다'},
+ {ti:'몸을 지키는 진언',m:'옴 치림',rep:3,n:'이 몸을 지켜 주소서'},
+ {ti:'관세음보살 여섯 글자 진언',m:'옴 마니 반메 훔',rep:3,n:'연꽃 속의 보배여 — 관세음보살님의 마음'},
+ {ti:'준제 진언',m:'나무 사다남 삼먁삼못다 구치남 다냐타 옴 자례주례 준제 사바하 부림',rep:3,n:'칠억 부처님께 귀의하오니, 준제보살이시여 이루어 주소서'},
+ {ti:'준제보살께 올리는 발원',l:['제가 이제 준제진언 지니고 외우며','깨달음의 넓고 큰 원 세우오니','선정과 지혜 어서 밝아지고','공덕이 모두 이루어지며','뛰어난 복 두루 장엄되어','모든 중생과 함께 부처 이루게 하소서']},
+ {ti:'여래께 올리는 열 가지 큰 발원',l:['세 갈래 나쁜 길을 길이 떠나게 하소서','탐욕 성냄 어리석음 어서 끊게 하소서','부처님과 법과 스님 늘 만나게 하소서','계와 선정 지혜를 부지런히 닦게 하소서','모든 부처님 따라 늘 배우게 하소서','깨달음의 마음에서 물러나지 않게 하소서','극락세계에 반드시 태어나게 하소서','아미타부처님을 어서 뵙게 하소서','온 세상에 몸을 나투어','모든 중생 널리 건지게 하소서']},
+ {ti:'네 가지 큰 서원',l:['가없는 중생을 다 건지오리다','끝없는 번뇌를 다 끊으오리다','한없는 법문을 다 배우오리다','위없는 불도를 다 이루오리다']},
+ {ti:'',l:['내 마음속 중생을 다 건지오리다','내 마음속 번뇌를 다 끊으오리다','내 마음속 법문을 다 배우오리다','내 마음속 불도를 다 이루오리다']},
+ {ti:'삼보께 귀의',l:['발원을 마치고 삼보님께 귀의하옵니다','시방에 늘 계신 부처님께 귀의합니다','시방에 늘 계신 가르침에 귀의합니다','시방에 늘 계신 스님들께 귀의합니다'],rep:3},
+ ]},
+];
+
 </script>
 <script>
 const $=s=>document.querySelector(s);
@@ -732,7 +795,7 @@ function dayIdx(){const d=new Date();const n=Math.floor(Date.UTC(d.getFullYear()
 function langSeg(){return `<div class="seg" id="langSeg">${[['ko','한국어'],['en','English'],['both','함께 Both']].map(([v,l])=>`<button data-lang="${v}" class="${S.lang==v?'on':''}">${l}</button>`).join('')}</div>`}
 const TABS=[['#/','🪷','처음','Home'],['#/gloss','📖','용어','Terms'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
 function tabs(){const h=location.hash||'#/';const cur=h==='#/'?'#/':'#/'+(h.slice(2).split('/')[0]);
-  const map={'#/intro':'#/','#/s':'#/','#/p':'#/','#/soon':'#/','#/chant':'#/','#/path':'#/'};const c=map[cur]||cur;
+  const map={'#/intro':'#/','#/s':'#/','#/p':'#/','#/soon':'#/','#/chant':'#/','#/path':'#/','#/u':'#/'};const c=map[cur]||cur;
   $('#tabs').innerHTML=TABS.map(([hr,i,k,e])=>`<button data-go="${hr}" class="${c==hr?'on':''}"><span class="i">${i}</span>${L(k,e)}</button>`).join('')}
 function stepBtn(p,i){const lv=LEVELS[p.lv];return `<button class="step${p.ready?'':' soon'}" data-go="${p.id==='intro'?'#/intro':p.ready?'#/s/'+p.id:'#/soon/'+p.id}">
  <span class="no">${i}</span><span class="tt"><b>${esc(L(p.t,p.te))}</b>${KO()?`<span class="hz">${p.h}</span>`:''}${p.ready?'':`<span class="soontag">${L('준비 중','Coming soon')}</span>`}
@@ -745,6 +808,7 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
   <div class="langbar">${langSeg()}</div>
   <div class="sec">${L('공부 길 — 이 순서대로 공부하세요','Study Path — follow this order')}</div>
   ${PATH.map((x,i)=>stepBtn(x,i)).join('')}
+  ${KO()?`<div class="sec">📜 우리말 경전 — 소리 내어 읽는 쉬운 우리말 독송본</div>${URIMAL.map(u=>`<button class="step" data-go="#/u/${u.id}"><span class="no" style="background:var(--gold);color:#2b1d16">📜</span><span class="tt"><b>${esc(u.t)}</b><span class="hz">${u.h}</span><small>${esc(u.d)}</small></span><span class="go">›</span></button>`).join('')}<div class="foot" style="margin-top:6px">초발심자경문·금강경·법구경 우리말 경전은 다음에 추가됩니다</div>`:''}
   <div class="foot">${L('경전 원문은 공공 영역의 고전이며, 해석·풀이·영어 번역은 이 앱을 위해 새로 쓴 것입니다.','Original texts are public-domain classics; translations and explanations were newly written for this app.')}<br>Shrine of Korean Shaman Sacred SODO</div>`}
  else if(p[0]==='path'){setHead(L('공부 길','Study Path'),false);html=`<div class="chhead"><div class="hz">修行之道</div><div class="d">${L('입문 → 초급 → 중급 → 고급 순서로 올라갑니다','From introduction to beginner, intermediate and advanced')}</div></div>${PATH.map((x,i)=>stepBtn(x,i)).join('')}`}
  else if(p[0]==='intro'){setHead(L('불경이란?','What Are the Sutras?'),true);html=`<div class="chhead"><div class="hz">佛經入門</div><div class="d">${L('불경 공부를 시작하기 전에 알아 두면 좋은 이야기','Good to know before you begin')}</div></div>`+INTRO.map(a=>aboutBox(a.p,L(a.t,a.te))).join('')+`<div class="pager"><button data-go="#/s/chobal">${L('첫 경전 시작하기: 초발심자경문 ›','Start the first text: Chobalsim ›')}</button></div>`}
@@ -763,6 +827,10 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
   html=`<div class="chant"><div class="hz" style="font-size:1.3rem;font-weight:700;letter-spacing:.15em">${its[0].h}</div><div class="r" style="font-weight:700">${its[0].r}</div>`+its.slice(1).map(it=>`<div class="ln"><div class="h">${esc(it.h)}</div><div class="r">${esc(it.r)}</div></div>`).join('')+`<div class="ln"><div class="r">(${L('세 번','×3')})</div></div></div><div class="pager"><button class="say" style="flex:1;padding:12px;border-radius:12px" data-chant="${p[1]}">🔊 ${L('한글 음으로 독송 듣기','Listen to the chant')}</button></div>`}
  else if(p[0]==='soon'){const x=PATH.find(y=>y.id===p[1]),s=SOON[p[1]];if(!x){location.hash='#/';return}setHead(L(x.t,x.te),true);
   html=`<div class="chhead"><div class="hz">${x.h}</div><div class="d">${esc(L(x.t,x.te))} <span class="badge lv${x.lv}">${L(LEVELS[x.lv][0],LEVELS[x.lv][1])}</span></div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}<div class="empty">🪷<br>${L('본문(원문·해석·풀이·용어)은 다음 단계에서 추가됩니다.','The full text with translations will be added in the next stage.')}</div>`}
+ else if(p[0]==='u'){const u=URIMAL.find(x=>x.id===p[1]);if(!u){location.hash='#/';return}setHead(u.t,true);
+  html=`<div class="chhead"><div class="hz">${u.h}</div><div class="d">${esc(u.t)}</div><div class="by">${esc(u.d)}</div></div><div class="about"><p>${esc(u.intro)}</p></div>
+  <div class="pager" style="margin:6px 0 10px"><button class="btn alt" data-uplay="${u.id}">🔊 이어서 듣기</button><button class="btn" data-go="#/s/${u.src}">원문 보기 ›</button></div>
+  <div class="uw">`+u.secs.map((s,i)=>`<div class="usec" id="u_${i}">${s.ti?`<div class="uti">${esc(s.ti)}</div>`:''}${s.l?s.l.map(x=>`<div class="ul">${esc(x)}</div>`).join(''):''}${s.m?`<div class="um">${esc(s.m)}</div>`:''}${s.rep?`<div class="urep">(${s.rep===3?'세':s.rep} 번)</div>`:''}${s.n?`<div class="un">— ${esc(s.n)}</div>`:''}</div>`).join('')+`<div class="ul" style="text-align:center;margin-top:18px;color:var(--muted)">🪷</div></div>`}
  else if(p[0]==='gloss'){setHead(L('불교 용어 사전','Glossary'),false);html=`<div class="search"><input id="gq" type="search" placeholder="${L('용어 찾기 (예: 공, 보살, 열반)','Find a term')}" value="${esc(V.gq||'')}"></div><div id="gres"></div>`}
  else if(p[0]==='search'){setHead(L('검색','Search'),false);html=`<div class="search"><input id="q" type="search" placeholder="${L('낱말 입력 (예: 자비, 공, 空)','Type a word')}" value="${esc(V.q||'')}"></div><div id="res"></div>`}
  else if(p[0]==='fav'){setHead(L('즐겨찾기','Saved'),false);const l=ALL.filter(x=>favs.has(x.id));html=l.length?l.map(x=>card(x,{where:1})).join(''):`<div class="empty">⭐<br>${L('마음에 닿는 구절의 ☆를 눌러 모아 두세요.','Tap ☆ on a verse to save it here.')}</div>`}
@@ -798,7 +866,7 @@ function showTerm(k){const g=GLOSS[k];if(!g)return;$('#popbox').innerHTML=`<b>${
 // 소리 내어 읽기
 let speakingId=null,Q=[],qi=0,curU=null,chain=null;
 const TTS=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
-function ttsStop(){try{speechSynthesis.cancel()}catch(e){}speakingId=null;chain=null;Q=[];curU=null;document.querySelectorAll('.say.on').forEach(b=>{b.classList.remove('on')});document.querySelectorAll('.card.speaking').forEach(c=>c.classList.remove('speaking'));const tb=$('#ttsbar');if(tb)tb.classList.remove('on')}
+function ttsStop(){try{speechSynthesis.cancel()}catch(e){}speakingId=null;chain=null;Q=[];curU=null;document.querySelectorAll('.say.on').forEach(b=>{b.classList.remove('on')});document.querySelectorAll('.card.speaking,.usec.speaking').forEach(c=>c.classList.remove('speaking'));const tb=$('#ttsbar');if(tb)tb.classList.remove('on')}
 function voicesFor(lang){try{return speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.replace('_','-').toLowerCase().startsWith(lang))}catch(e){return[]}}
 function score(v){const n=(v.name||'')+' '+(v.voiceURI||'');let s=0;
  if(/premium|enhanced|natural|neural|고품질|향상|wavenet|studio/i.test(n))s+=10;
@@ -817,7 +885,7 @@ function mark(id){document.querySelectorAll('.card.speaking').forEach(c=>c.class
  const x=byId(id);if(x){$('#ttstxt').textContent='🔊 '+where(x);$('#ttsbar').classList.add('on')}}
 let lastId=null;
 function speakNext(){if(!Q.length||qi>=Q.length){if(chain&&chain.length){startItem(chain.shift(),true);return}ttsStop();return}
- const p=Q[qi++];if(p.id&&p.id!==lastId){lastId=p.id;mark(p.id)}
+ const p=Q[qi++];if(p.id&&p.id!==lastId){lastId=p.id;mark(p.id)}if(p.uid!==undefined&&p.uid!==lastId){lastId=p.uid;markU(p.uid)}
  const u=new SpeechSynthesisUtterance(p.t);u.lang=p.l;const v=voice(p.l.slice(0,2));if(v)u.voice=v;u.rate=S.rate||.9;u.pitch=S.pitch||1;
  u.onend=()=>{if(curU===u)setTimeout(()=>{if(curU===u)speakNext()},p.l==='en-US'?250:350)};u.onerror=e=>{if(curU===u&&e.error!=='interrupted'&&e.error!=='canceled')speakNext()};curU=u;speechSynthesis.speak(u)}
 function startItem(id,keep){if(!TTS){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}const c=chain;try{speechSynthesis.cancel()}catch(e){}
@@ -825,6 +893,10 @@ function startItem(id,keep){if(!TTS){toast(L('이 기기는 읽기 기능을 지
 function speakList(parts,btn,cardEl){ttsStop();if(!TTS){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}
  btn&&btn.classList.add('on');Q=[];parts.forEach(([t,l])=>Q.push(...chunks(t,l)));qi=0;lastId=null;speakNext()}
 function sayItem(id,btn){if(btn.classList.contains('on')){ttsStop();return}startItem(id)}
+function markU(i){document.querySelectorAll('.usec.speaking').forEach(c=>c.classList.remove('speaking'));const c=document.getElementById('u_'+i);if(c){c.classList.add('speaking');c.scrollIntoView({block:'center',behavior:'smooth'})}const u=URIMAL.find(x=>location.hash.endsWith('/'+x.id));$('#ttstxt').textContent='🔊 '+(u?u.t:'우리말 경전');$('#ttsbar').classList.add('on')}
+function playU(id){const u=URIMAL.find(x=>x.id===id);if(!u)return;ttsStop();if(!TTS){toast('이 기기는 읽기 기능을 지원하지 않습니다');return}Q=[];
+ u.secs.forEach((s,i)=>{const add=t=>Q.push({t,l:'ko-KR',uid:i});if(s.ti)add(s.ti);if(s.l){const n=(s.rep&&s.l)?s.rep:1;for(let r=0;r<n;r++)s.l.forEach(add)}if(s.m){const n=s.m.length<60?(s.rep||1):1;for(let r=0;r<n;r++)add(s.m)}});
+ qi=0;lastId=null;speakNext()}
 function playAll(ids){if(!ids.length)return;ttsStop();chain=ids.slice(1);startItem(ids[0],true)}
 function sample(lang){ttsStop();const txt=lang=='ko'?'모든 악을 짓지 말고, 모든 선을 받들어 행하며, 스스로 그 마음을 깨끗이 하라. 이것이 모든 부처님의 가르침이다.':'Do no evil, do good, and purify your own mind. This is the teaching of all the Buddhas.';speakList([[txt,lang=='ko'?'ko-KR':'en-US']])}
 function voiceSel(lang){const vs=voicesFor(lang).slice().sort((a,b)=>score(b)-score(a));const cur=lang=='ko'?S.voiceKo:S.voiceEn;
@@ -840,6 +912,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#p
  if(t.dataset.fav){const id=t.dataset.fav;if(favs.has(id)){favs.delete(id);toast(L('즐겨찾기에서 뺐습니다','Removed'))}else{favs.add(id);toast(L('⭐ 즐겨찾기에 담았습니다','⭐ Saved'))}store.set('favs',[...favs]);document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{b.classList.toggle('on',favs.has(id));b.textContent=favs.has(id)?'★':'☆'});return}
  if(t.dataset.say){sayItem(t.dataset.say,t);return}
  if(t.dataset.sample){sample(t.dataset.sample);return}
+ if(t.dataset.uplay){playU(t.dataset.uplay);return}
  if(t.dataset.playall!==undefined){const [sid,pi]=t.dataset.playall.split('/');playAll(ALL.filter(x=>x.sid===sid&&x.pi===+pi).map(x=>x.id));return}
  if(t.id==='ttsstop'){ttsStop();return}
  if(t.dataset.pitch){S.pitch=+t.dataset.pitch;saveSet();route();return}
