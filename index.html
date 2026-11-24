@@ -56,6 +56,8 @@ nav.tabs button.on{color:#ffe0a0}
 .ul{font-size:calc(1.12rem * var(--fs));line-height:1.95;word-break:keep-all}
 .um{font-size:calc(1.12rem * var(--fs));line-height:1.9;font-weight:700;color:#5a1e14;word-break:keep-all}
 .urep{color:var(--muted);font-size:.85rem}.un{color:#4b6a37;font-size:calc(.9rem * var(--fs));margin-top:6px;word-break:keep-all}
+.tl{border-bottom:1.5px dotted #b07a1e;cursor:pointer;border-radius:2px}.tl:active{background:#f6e6c2}
+.study .k .tl{pointer-events:none}
 .hide-h .h,.hide-r .r,.hide-z .ez{display:none}
 .study .k,.study .en{filter:blur(6px);cursor:pointer;transition:filter .2s}
 .study .k.show,.study .en.show{filter:none}
@@ -901,7 +903,7 @@ URIMAL.push({id:'chobal',t:'우리말 초발심자경문',h:'初發心自警文'
 <script>
 const $=s=>document.querySelector(s);
 const store={get(k,d){try{const v=localStorage.getItem('sdbg_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('sdbg_'+k,JSON.stringify(v))}catch(e){}}};
-let S=Object.assign({lang:'ko',fs:1,showH:true,showR:true,showZ:true,study:false,rate:.95,pitch:1,voiceKo:'',voiceEn:'',readR:true,readZ:false},store.get('set',{}));
+let S=Object.assign({lang:'ko',fs:1,showH:true,showR:true,showZ:true,study:false,rate:.95,pitch:1,voiceKo:'',voiceEn:'',readR:true,readZ:false,inlineTerms:true},store.get('set',{}));
 let favs=new Set(store.get('favs',[]));
 const EN=()=>S.lang==='en',BOTH=()=>S.lang==='both',KO=()=>S.lang!=='en';
 const L=(k,e)=>EN()?e:k;
@@ -917,14 +919,31 @@ for(const sid in SUTRAS){SUTRAS[sid].parts.forEach((p,pi)=>p.items.forEach((it,i
 const byId=id=>ALL.find(x=>x.id===id);
 function where(x){const s=SUTRAS[x.sid],p=s.parts[x.pi];if(x.it.n)return EN()?`Dhammapada v.${x.it.n}`:`법구경 ${x.it.n}번 게송`;const nm=s.parts.length>1?(EN()?p.te:p.t):(EN()?s.te:s.t);return EN()?`${nm}, No. ${x.ii+1}`:`${nm} ${x.ii+1}번째 구절`}
 function termChips(w){if(!w||!w.length)return'';return `<div class="terms">${w.filter(k=>GLOSS[k]).map(k=>`<button class="term" data-term="${esc(k)}">📖 ${EN()?esc(GLOSS[k][2]):esc(k)}</button>`).join('')}</div>`}
-function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span class="num">${x.it.n||x.ii+1}</span>`;const pali=SUTRAS[x.sid].pali;
+// 문장 속 용어 밑줄
+const HG=/[가-힣]/, PART='은는이가을를의에과와도로으함께만';
+const TEX=new Set(['보시','나무','주','색']);
+let TK=null,TH=null;
+function buildTerms(){TK=[];TH=[];for(const k in GLOSS){if(!TEX.has(k))TK.push(k);const h=GLOSS[k][0];if(h&&h.length>=2&&/^[㐀-鿿]+$/.test(h))TH.push([h,k])}
+ TK.sort((a,b)=>b.length-a.length);TH.sort((a,b)=>b[0].length-a[0].length)}
+function linkify(t,used,mode){if(!S.inlineTerms)return esc(t);if(!TK)buildTerms();t=String(t||'');let out='',i=0,buf='';
+ const flush=()=>{out+=esc(buf);buf=''};
+ while(i<t.length){let hit=null,len=0;
+  if(mode==='h'){for(const [h,k] of TH){if(t.startsWith(h,i)&&!used.has(k)){hit=k;len=h.length;break}}}
+  else{const prev=i>0?t[i-1]:' ';for(const k of TK){if(!t.startsWith(k,i)||used.has(k))continue;
+    if(k.length===1){const nx=t[i+1]||' ';if(HG.test(prev)||(HG.test(nx)&&!PART.includes(nx)))continue}
+    else if(k.length===2&&HG.test(prev)&&!/[㐀-鿿]/.test(k))continue;
+    hit=k;len=k.length;break}}
+  if(hit){flush();used.add(hit);out+=`<span class="tl" data-term="${esc(hit)}">${esc(t.substr(i,len))}</span>`;i+=len}else{buf+=t[i];i++}}
+ flush();return out}
+function lk(t,q,used,mode){return q?hl(t,q):linkify(t,used,mode)}
+function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span class="num">${x.it.n||x.ii+1}</span>`;const pali=SUTRAS[x.sid].pali;const used=new Set();
   return `<div class="card${opt.today?' today':''}" id="c${x.id.replace(/\./g,'_')}">
   ${opt.today?`<div class="lbl"><span>🪷 ${L('오늘의 한 구절','Verse of the Day')}</span><a href="#/p/${x.sid}/${x.pi}" style="color:var(--muted);font-weight:400">${esc(where(x))}</a></div>`:''}
   ${it.ti?`<div class="ti">${esc(it.ti)}${it.th?` <span class="thz">${it.th}</span>`:''}</div>`:''}
-  <div class="h${pali?' pali':''}">${n}${hl(it.h,q)}</div>
+  <div class="h${pali?' pali':''}">${n}${pali?hl(it.h,q):lk(it.h,q,used,'h')}</div>
   ${it.r?`<div class="r">${hl(it.r,q)}</div>`:''}
-  ${KO()?`<div class="k">${hl(it.k,q)}</div>`:''}
-  ${KO()&&it.z?`<div class="ez"><span class="el">💡 ${L('쉬운 풀이','Easy explanation')}</span>${hl(it.z,q)}</div>`:''}
+  ${KO()?`<div class="k">${lk(it.k,q,used,'k')}</div>`:''}
+  ${KO()&&it.z?`<div class="ez"><span class="el">💡 ${L('쉬운 풀이','Easy explanation')}</span>${lk(it.z,q,used,'k')}</div>`:''}
   ${(EN()||BOTH())?`<div class="en">${hl(it.e,q)}</div>`:''}
   ${termChips(it.w)}
   <div class="meta">${opt.where?`<a href="#/p/${x.sid}/${x.pi}">${esc(where(x))}</a>`:'<span></span>'}
@@ -942,7 +961,7 @@ function stepBtn(p,i){const lv=LEVELS[p.lv];return `<button class="step${p.ready
  <small><span class="badge lv${p.lv}">${L(lv[0],lv[1])}</span>${esc(L(p.d,p.de))}</small></span><span class="go">›</span></button>`}
 const V={};
 function setHead(t,back){$('#ttl').textContent=t;$('#back').style.visibility=back?'visible':'hidden'}
-function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split('/');const app=$('#app');let html='';
+function route(){ttsStop();try{$('#pop').classList.remove('on')}catch(e){}const h=location.hash||'#/';const p=h.slice(2).split('/');const app=$('#app');let html='';
  if(!p[0]){setHead(L('소도불경공부','Sodo Sutra Study'),false);
   html=`<div class="hero"><div class="lotus">🪷</div><h2>${L('소도불경공부','Sodo Sutra Study')}</h2><p>${L('초급부터 차근차근 — 뜻을 알고 읽는 불경','Step by step from the beginning — reading the sutras with understanding')}</p></div>
   <div class="langbar">${langSeg()}</div>
@@ -970,7 +989,7 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
  else if(p[0]==='u'){const u=URIMAL.find(x=>x.id===p[1]);if(!u){location.hash='#/';return}setHead(u.t,true);
   html=`<div class="chhead"><div class="hz">${u.h}</div><div class="d">${esc(u.t)}</div><div class="by">${esc(u.d)}</div></div><div class="about"><p>${esc(u.intro)}</p></div>
   <div class="pager" style="margin:6px 0 10px"><button class="btn alt" data-uplay="${u.id}">🔊 이어서 듣기</button><button class="btn" data-go="#/s/${u.src}">원문 보기 ›</button></div>
-  <div class="uw">`+u.secs.map((s,i)=>`<div class="usec${s.pt?' upart':''}" id="u_${i}">${s.pt?`<div class="upt">${esc(s.pt)}</div>`:''}${s.ti?`<div class="uti">${esc(s.ti)}</div>`:''}${s.l?s.l.map(x=>`<div class="ul">${esc(x)}</div>`).join(''):''}${s.m?`<div class="um">${esc(s.m)}</div>`:''}${s.rep?`<div class="urep">(${s.rep===3?'세':s.rep} 번)</div>`:''}${s.n?`<div class="un">— ${esc(s.n)}</div>`:''}</div>`).join('')+`<div class="ul" style="text-align:center;margin-top:18px;color:var(--muted)">🪷</div></div>`}
+  <div class="uw">`+u.secs.map((s,i)=>`<div class="usec${s.pt?' upart':''}" id="u_${i}">${s.pt?`<div class="upt">${esc(s.pt)}</div>`:''}${s.ti?`<div class="uti">${esc(s.ti)}</div>`:''}${s.l?(()=>{const used=new Set();return s.l.map(x=>`<div class="ul">${linkify(x,used,'k')}</div>`).join('')})():''}${s.m?`<div class="um">${esc(s.m)}</div>`:''}${s.rep?`<div class="urep">(${s.rep===3?'세':s.rep} 번)</div>`:''}${s.n?`<div class="un">— ${esc(s.n)}</div>`:''}</div>`).join('')+`<div class="ul" style="text-align:center;margin-top:18px;color:var(--muted)">🪷</div></div>`}
  else if(p[0]==='gloss'){setHead(L('불교 용어 사전','Glossary'),false);html=`<div class="search"><input id="gq" type="search" placeholder="${L('용어 찾기 (예: 공, 보살, 열반)','Find a term')}" value="${esc(V.gq||'')}"></div><div id="gres"></div>`}
  else if(p[0]==='search'){setHead(L('검색','Search'),false);html=`<div class="search"><input id="q" type="search" placeholder="${L('낱말 입력 (예: 자비, 공, 空)','Type a word')}" value="${esc(V.q||'')}"></div><div id="res"></div>`}
  else if(p[0]==='fav'){setHead(L('즐겨찾기','Saved'),false);const l=ALL.filter(x=>favs.has(x.id));html=l.length?l.map(x=>card(x,{where:1})).join(''):`<div class="empty">⭐<br>${L('마음에 닿는 구절의 ☆를 눌러 모아 두세요.','Tap ☆ on a verse to save it here.')}</div>`}
@@ -981,6 +1000,7 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
   ${tg('showH','원문(한문) 보기','Show original','한자 원문','Classical Chinese text')}
   ${tg('showR','한글 음 보기','Show Korean reading','한자를 한글로 읽은 소리','Korean pronunciation')}
   ${tg('showZ','쉬운 풀이 보기','Show easy explanation','요즘 말로 쉽게 푼 설명','Plain-language notes')}
+  ${tg('inlineTerms','문장 속 용어 밑줄','Underline terms in text','불교 용어에 점선 밑줄 — 누르면 뜻이 나와요','Tap a dotted word to see its meaning')}
   ${tg('study','외우기 연습','Memorize mode','해석을 가려 두고 눌러서 확인','Hide translations; tap to reveal')}
   <div class="opt"><div class="t"><b>${L('읽어 주는 속도','Speech speed')}</b></div><div class="seg">${[[.7,'느리게'],[.85,'조금 느리게'],[.95,'보통'],[1.1,'빠르게']].map(([v,l])=>`<button data-rate="${v}" class="${S.rate==v?'on':''}">${L(l,{0.7:'Slow',0.85:'Slower',0.95:'Normal',1.1:'Fast'}[v])}</button>`).join('')}</div></div>
   <div class="opt"><div class="t"><b>${L('목소리 높낮이','Voice pitch')}</b></div><div class="seg">${[[0.85,L('낮게','Low')],[1,L('보통','Normal')],[1.15,L('높게','High')]].map(([v,l])=>`<button data-pitch="${v}" class="${(S.pitch||1)==v?'on':''}">${l}</button>`).join('')}</div></div>
@@ -1044,7 +1064,7 @@ function voiceSel(lang){const vs=voicesFor(lang).slice().sort((a,b)=>score(b)-sc
  return `<select data-voice="${lang}" style="font:inherit;font-size:1rem;padding:8px;border-radius:10px;border:1px solid var(--line);background:#fffdf6;max-width:100%">
  <option value="">${L('자동 (가장 자연스러운 목소리)','Auto (most natural)')}</option>${vs.map(v=>`<option value="${esc(v.voiceURI||v.name)}" ${cur===(v.voiceURI||v.name)?'selected':''}>${esc(v.name)}${score(v)>=10?' ★':''}${v.localService===false?L(' (인터넷 필요)',' (online)'):''}</option>`).join('')}</select>
  <button class="say" data-sample="${lang}">▶ ${L('들어 보기','Try')}</button>`}
-document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#pop');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('.tl,button,.k,.en,#pop');if(!t)return;
  if(t.id==='pop'&&e.target===t){t.classList.remove('on');return}
  if(t.id==='popx'){$('#pop').classList.remove('on');return}
  if(t.dataset.go!==undefined){if(t.dataset.soon){toast(L('다음 단계에서 추가됩니다 🪷','Coming in the next stage 🪷'));return}if(t.dataset.go)location.hash=t.dataset.go;return}
