@@ -109,6 +109,7 @@ mark{background:#f6d77e;color:inherit;border-radius:3px;padding:0 1px}
 #pop .box p{margin:8px 0 0;word-break:keep-all}
 #pop .box p.en2{font-family:Georgia,serif;color:#33465e}
 #pop .box button{margin-top:14px;width:100%}
+#ttsbar{position:fixed;left:10px;right:10px;bottom:calc(66px + env(safe-area-inset-bottom));z-index:8;background:#2f4a26;color:#fff;border-radius:14px;padding:8px 10px 8px 14px;display:none;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.3);max-width:700px;margin:0 auto}#ttsbar.on{display:flex}#ttstxt{flex:1;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#ttsbar button{background:#fff;color:#2f4a26;border:0;border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(40,25,15,.92);color:#fff;padding:8px 16px;border-radius:20px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:30}
 .toast.on{opacity:1}
 .foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:26px}
@@ -124,6 +125,7 @@ mark{background:#f6d77e;color:inherit;border-radius:3px;padding:0 1px}
 <main id="app"></main>
 <nav class="tabs" id="tabs"></nav>
 <div id="pop"><div class="box" id="popbox"></div></div>
+<div id="ttsbar"><span id="ttstxt"></span><button id="ttsstop">⏹ 멈춤</button></div>
 <div class="toast" id="toast"></div>
 <script>
 // 소도불경공부 — 내용 데이터
@@ -696,7 +698,7 @@ PATH.forEach(p=>{if(p.id==='chunsu'||p.id==='diamond')p.ready=true});
 <script>
 const $=s=>document.querySelector(s);
 const store={get(k,d){try{const v=localStorage.getItem('sdbg_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('sdbg_'+k,JSON.stringify(v))}catch(e){}}};
-let S=Object.assign({lang:'ko',fs:1,showH:true,showR:true,showZ:true,study:false,rate:.9},store.get('set',{}));
+let S=Object.assign({lang:'ko',fs:1,showH:true,showR:true,showZ:true,study:false,rate:.95,pitch:1,voiceKo:'',voiceEn:'',readR:true,readZ:false},store.get('set',{}));
 let favs=new Set(store.get('favs',[]));
 const EN=()=>S.lang==='en',BOTH=()=>S.lang==='both',KO=()=>S.lang!=='en';
 const L=(k,e)=>EN()?e:k;
@@ -749,11 +751,11 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
  else if(p[0]==='s'){const s=SUTRAS[p[1]];if(!s){location.hash='#/';return}setHead(L(s.t,s.te),true);
   html=`<div class="chhead"><div class="hz">${s.h}</div><div class="d">${esc(L(s.t,s.te))}</div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}`;
   if(s.parts.length===1){const pt=s.parts[0];html+=`<div class="chhead"><div class="by">${esc(L(pt.by,pt.bye))}</div></div>`;if(s.chant)html+=`<div class="pager"><button class="alt btn" data-go="#/chant/${p[1]}">📿 ${L('독송 모드 (전체 이어서 보기)','Chanting mode (full text)')}</button></div>`;
-   html+=ALL.filter(x=>x.sid===p[1]).map(x=>card(x)).join('')}
+   html+=`<div class="pager" style="margin:6px 0 4px"><button class="btn alt" data-playall="${p[1]}/0">🔊 ${L('처음부터 이어서 듣기','Listen to all')}</button></div>`+ALL.filter(x=>x.sid===p[1]).map(x=>card(x)).join('')}
   else{html+=`<div class="sec">${p[1]==='chobal'?L('세 편의 글로 이루어져 있습니다','Made up of three works'):L(s.parts.length+'개의 장(품)으로 이루어져 있습니다',s.parts.length+' chapters')}</div>`+s.parts.map((pt,i)=>`<button class="step${pt.soon?' soon':''}" data-go="${pt.soon?'':'#/p/'+p[1]+'/'+i}" ${pt.soon?'data-soon="1"':''}><span class="no">${i+1}</span><span class="tt"><b>${esc(L(pt.t,pt.te))}</b>${KO()?`<span class="hz">${pt.h}</span>`:''}${pt.soon?`<span class="soontag">${L('준비 중','Coming soon')}</span>`:''}<small>${esc(L(pt.by,pt.bye))}</small><small>${esc(L(pt.d,pt.de))}</small></span><span class="go">›</span></button>`).join('')}
  }
  else if(p[0]==='p'){const s=SUTRAS[p[1]],pi=+p[2],pt=s&&s.parts[pi];if(!pt){location.hash='#/';return}setHead(L(pt.t,pt.te),true);
-  html=`<div class="chhead"><div class="hz">${pt.h}</div><div class="d">${esc(L(pt.t,pt.te))}</div><div class="by">${esc(L(pt.by,pt.bye))}</div></div>${pt.about?aboutBox(pt.about,L('이 글은?','About this work')):''}`+ALL.filter(x=>x.sid===p[1]&&x.pi===pi).map(x=>card(x)).join('');
+  html=`<div class="chhead"><div class="hz">${pt.h}</div><div class="d">${esc(L(pt.t,pt.te))}</div><div class="by">${esc(L(pt.by,pt.bye))}</div></div>${pt.about?aboutBox(pt.about,L('이 글은?','About this work')):''}`+`<div class="pager" style="margin:6px 0 4px"><button class="btn alt" data-playall="${p[1]}/${pi}">🔊 ${L('처음부터 이어서 듣기','Listen to all')}</button></div>`+ALL.filter(x=>x.sid===p[1]&&x.pi===pi).map(x=>card(x)).join('');
   const nx=s.parts[pi+1];html+=`<div class="pager"><button data-go="#/s/${p[1]}">‹ ${L('목록','Back to list')}</button>${nx?`<button ${nx.soon?'disabled':''} data-go="#/p/${p[1]}/${pi+1}">${esc(L(nx.t,nx.te))}${nx.soon?L(' (준비 중)',' (soon)'):''} ›</button>`:(p[1]==='chobal'?`<button data-go="#/s/heart">${L('다음 경전: 반야심경 ›','Next: Heart Sutra ›')}</button>`:'')}</div>`}
  else if(p[0]==='chant'&&p[1]!=='heart'){const s=SUTRAS[p[1]];setHead(L(s.t+' 독송',s.te+' — Chant'),true);const its=s.parts[0].items;
   html=`<div class="chant"><div class="hz" style="font-size:1.3rem;font-weight:700;letter-spacing:.15em">${s.h}</div>`+its.map(it=>`<div class="ln">${it.ti?`<div class="ti" style="border:0;margin:0">${esc(it.ti.split(' — ')[0])}</div>`:''}<div class="r">${esc(it.r).replace(/ \/ /g,'<br>')}</div></div>`).join('')+`</div><div class="pager"><button class="say" style="flex:1;padding:12px;border-radius:12px" data-chant="${p[1]}">🔊 ${L('한글 음으로 독송 듣기','Listen to the chant')}</button></div>`}
@@ -772,7 +774,13 @@ function route(){ttsStop();const h=location.hash||'#/';const p=h.slice(2).split(
   ${tg('showR','한글 음 보기','Show Korean reading','한자를 한글로 읽은 소리','Korean pronunciation')}
   ${tg('showZ','쉬운 풀이 보기','Show easy explanation','요즘 말로 쉽게 푼 설명','Plain-language notes')}
   ${tg('study','외우기 연습','Memorize mode','해석을 가려 두고 눌러서 확인','Hide translations; tap to reveal')}
-  <div class="opt"><div class="t"><b>${L('읽어 주는 속도','Speech speed')}</b></div><div class="seg">${[[.7,'느리게'],[.9,'보통'],[1.1,'빠르게']].map(([v,l])=>`<button data-rate="${v}" class="${S.rate==v?'on':''}">${L(l,{0.7:'Slow',0.9:'Normal',1.1:'Fast'}[v])}</button>`).join('')}</div></div>
+  <div class="opt"><div class="t"><b>${L('읽어 주는 속도','Speech speed')}</b></div><div class="seg">${[[.7,'느리게'],[.85,'조금 느리게'],[.95,'보통'],[1.1,'빠르게']].map(([v,l])=>`<button data-rate="${v}" class="${S.rate==v?'on':''}">${L(l,{0.7:'Slow',0.85:'Slower',0.95:'Normal',1.1:'Fast'}[v])}</button>`).join('')}</div></div>
+  <div class="opt"><div class="t"><b>${L('목소리 높낮이','Voice pitch')}</b></div><div class="seg">${[[0.85,L('낮게','Low')],[1,L('보통','Normal')],[1.15,L('높게','High')]].map(([v,l])=>`<button data-pitch="${v}" class="${(S.pitch||1)==v?'on':''}">${l}</button>`).join('')}</div></div>
+  <div class="opt" style="display:block"><div class="t"><b>${L('한국어 목소리','Korean voice')}</b><small>${L('★ 표시가 더 자연스러운 고품질 목소리입니다','★ = higher-quality natural voice')}</small></div><div style="margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:8px">${TTS?voiceSel('ko'):''}</div></div>
+  <div class="opt" style="display:block"><div class="t"><b>${L('영어 목소리','English voice')}</b></div><div style="margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:8px">${TTS?voiceSel('en'):''}</div></div>
+  <div class="opt"><div class="t"><b>${L('듣기에 한글 음 포함','Read Korean pronunciation')}</b><small>${L('한문을 한글로 읽은 소리','Reading of the original')}</small></div><div class="seg"><button data-tgr="readR" data-v="1" class="${S.readR!==false?'on':''}">${L('켜기','On')}</button><button data-tgr="readR" data-v="0" class="${S.readR===false?'on':''}">${L('끄기','Off')}</button></div></div>
+  <div class="opt"><div class="t"><b>${L('듣기에 쉬운 풀이 포함','Read easy notes')}</b></div><div class="seg"><button data-tgr="readZ" data-v="1" class="${S.readZ?'on':''}">${L('켜기','On')}</button><button data-tgr="readZ" data-v="0" class="${!S.readZ?'on':''}">${L('끄기','Off')}</button></div></div>
+  <div class="about"><h3>${L('더 자연스러운 목소리 내려받기','Get more natural voices')}</h3><p>${L('📱 갤럭시: 설정 → 일반 → 텍스트 음성 변환(TTS) → 기본 엔진을 "Google 음성 인식 및 합성"으로 → ⚙ → 음성 데이터 설치 → 한국어 → 마음에 드는 목소리 선택','Android: Settings → General management → Text-to-speech → choose the Google engine → ⚙ → Install voice data')}</p><p>${L('📱 아이폰: 설정 → 손쉬운 사용 → 읽기 및 말하기 → 음성 → 한국어 → "유나(향상됨)" 또는 "고품질" 목소리 내려받기','iPhone: Settings → Accessibility → Spoken Content → Voices → download an "Enhanced" or "Premium" voice')}</p><p>${L('💻 컴퓨터는 크롬이나 엣지 브라우저에서 "Google 한국의" 또는 "Natural" 목소리가 가장 자연스럽습니다.','On a computer, Chrome\'s "Google" or Edge\'s "Natural" voices sound best.')}</p><p>${L('내려받은 뒤 앱을 껐다 다시 열면 위 목록에 나타납니다.','Close and reopen the app afterwards.')}</p></div>
   <div class="about"><h3>${L('휴대폰에 앱으로 설치하기','Install on your phone')}</h3><p>${L('갤럭시(크롬): 오른쪽 위 ⋮ → "홈 화면에 추가" 또는 "앱 설치"','Android (Chrome): ⋮ menu → "Add to Home screen" / "Install app"')}</p><p>${L('아이폰(사파리): 아래쪽 공유 버튼(□↑) → "홈 화면에 추가"','iPhone (Safari): Share (□↑) → "Add to Home Screen"')}</p></div>
   <div class="foot">소도불경공부 v1 · ${ALL.length}${L('구절',' verses')} · ${Object.keys(GLOSS).length}${L('개 용어',' terms')}</div>`}
  else{location.hash='#/';return}
@@ -788,14 +796,42 @@ function doGloss(q){V.gq=q;q=q.trim();const ql=q.toLowerCase();const ks=Object.k
  const l=q?ks.filter(k=>(k+' '+GLOSS[k].join(' ')).toLowerCase().includes(ql)):ks;$('#gres').innerHTML=`<div class="sec">${l.length}${L('개 용어',' terms')}</div>`+l.map(k=>glossHTML(k,q)).join('')}
 function showTerm(k){const g=GLOSS[k];if(!g)return;$('#popbox').innerHTML=`<b>${esc(k)}</b><span class="kk">${esc(g[0])}</span>${KO()?`<p>${esc(g[1])}</p>`:''}${(EN()||BOTH())?`<p class="en2"><b style="font-size:1em">${esc(g[2])}</b> — ${esc(g[3])}</p>`:''}<button class="btn" id="popx">${L('닫기','Close')}</button>`;$('#pop').classList.add('on')}
 // 소리 내어 읽기
-let speakingId=null;
-function ttsStop(){try{speechSynthesis.cancel()}catch(e){}speakingId=null;document.querySelectorAll('.say.on').forEach(b=>{b.classList.remove('on')});document.querySelectorAll('.card.speaking').forEach(c=>c.classList.remove('speaking'))}
-function voice(lang){try{return speechSynthesis.getVoices().find(v=>v.lang&&v.lang.replace('_','-').toLowerCase().startsWith(lang))||null}catch(e){return null}}
-function speakList(parts,btn,cardEl){ttsStop();if(!('speechSynthesis' in window)){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}
- btn&&btn.classList.add('on');cardEl&&cardEl.classList.add('speaking');let i=0;const tok={};speakingId=tok;
- const next=()=>{if(speakingId!==tok)return;if(i>=parts.length){ttsStop();return}const [t,l]=parts[i++];const u=new SpeechSynthesisUtterance(t);u.lang=l;const v=voice(l.slice(0,2));if(v)u.voice=v;u.rate=S.rate;u.onend=next;u.onerror=next;speechSynthesis.speak(u)};next()}
-function sayItem(id,btn){if(btn.classList.contains('on')){ttsStop();return}const x=byId(id);const P=[];
- if(KO()){if(x.it.r)P.push([x.it.r,'ko-KR']);P.push([x.it.k,'ko-KR'])}if(EN()||BOTH())P.push([x.it.e,'en-US']);speakList(P,btn,btn.closest('.card'))}
+let speakingId=null,Q=[],qi=0,curU=null,chain=null;
+const TTS=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
+function ttsStop(){try{speechSynthesis.cancel()}catch(e){}speakingId=null;chain=null;Q=[];curU=null;document.querySelectorAll('.say.on').forEach(b=>{b.classList.remove('on')});document.querySelectorAll('.card.speaking').forEach(c=>c.classList.remove('speaking'));const tb=$('#ttsbar');if(tb)tb.classList.remove('on')}
+function voicesFor(lang){try{return speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.replace('_','-').toLowerCase().startsWith(lang))}catch(e){return[]}}
+function score(v){const n=(v.name||'')+' '+(v.voiceURI||'');let s=0;
+ if(/premium|enhanced|natural|neural|고품질|향상|wavenet|studio/i.test(n))s+=10;
+ if(/google/i.test(n))s+=6; if(/siri/i.test(n))s+=5;
+ if(/yuna|유나|sora|jinju|seoyeon|heami|ava|samantha|allison|zoe|evan/i.test(n))s+=3;
+ if(/compact|eloquence|novelty|bad news|bells|bubbles|cellos|whisper|zarvox|jester|organ|superstar|trinoids|wobble/i.test(n))s-=20;
+ if(v.localService)s+=1; return s}
+function voice(lang){try{const want=lang=='ko'?S.voiceKo:S.voiceEn;const vs=voicesFor(lang);if(want){const m=vs.find(v=>v.voiceURI===want||v.name===want);if(m)return m}
+ return vs.slice().sort((a,b)=>score(b)-score(a))[0]||null}catch(e){return null}}
+function chunks(t,l){t=String(t||'').replace(/\((세 번|×3)\)/g,'').replace(/ \/ /g,', ').replace(/[“”"]/g,'').trim();if(!t)return[];
+ const parts=t.split(/(?<=[.?!。])\s+|(?<=[,，])\s+(?=\S{6,})|\s+—\s+/).map(s=>s.trim()).filter(Boolean);return parts.map(s=>({t:s,l}))}
+function itemQ(x){const P=[];if(KO()){if(x.it.r&&S.readR!==false)P.push(...chunks(x.it.r,'ko-KR'));P.push(...chunks(x.it.k,'ko-KR'));if(S.readZ&&x.it.z)P.push(...chunks(x.it.z,'ko-KR'))}
+ if(EN()||BOTH())P.push(...chunks(x.it.e,'en-US'));return P.map(p=>Object.assign(p,{id:x.id}))}
+function mark(id){document.querySelectorAll('.card.speaking').forEach(c=>c.classList.remove('speaking'));const c=document.getElementById('c'+id.replace(/\./g,'_'));
+ if(c){c.classList.add('speaking');if(chain)c.scrollIntoView({block:'center',behavior:'smooth'});const b=c.querySelector('.say');if(b){document.querySelectorAll('.say.on').forEach(x=>x.classList.remove('on'));b.classList.add('on')}}
+ const x=byId(id);if(x){$('#ttstxt').textContent='🔊 '+where(x);$('#ttsbar').classList.add('on')}}
+let lastId=null;
+function speakNext(){if(!Q.length||qi>=Q.length){if(chain&&chain.length){startItem(chain.shift(),true);return}ttsStop();return}
+ const p=Q[qi++];if(p.id&&p.id!==lastId){lastId=p.id;mark(p.id)}
+ const u=new SpeechSynthesisUtterance(p.t);u.lang=p.l;const v=voice(p.l.slice(0,2));if(v)u.voice=v;u.rate=S.rate||.9;u.pitch=S.pitch||1;
+ u.onend=()=>{if(curU===u)setTimeout(()=>{if(curU===u)speakNext()},p.l==='en-US'?250:350)};u.onerror=e=>{if(curU===u&&e.error!=='interrupted'&&e.error!=='canceled')speakNext()};curU=u;speechSynthesis.speak(u)}
+function startItem(id,keep){if(!TTS){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}const c=chain;try{speechSynthesis.cancel()}catch(e){}
+ if(keep)chain=c;else chain=null;Q=itemQ(byId(id));qi=0;lastId=null;speakingId={};speakNext()}
+function speakList(parts,btn,cardEl){ttsStop();if(!TTS){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}
+ btn&&btn.classList.add('on');Q=[];parts.forEach(([t,l])=>Q.push(...chunks(t,l)));qi=0;lastId=null;speakNext()}
+function sayItem(id,btn){if(btn.classList.contains('on')){ttsStop();return}startItem(id)}
+function playAll(ids){if(!ids.length)return;ttsStop();chain=ids.slice(1);startItem(ids[0],true)}
+function sample(lang){ttsStop();const txt=lang=='ko'?'모든 악을 짓지 말고, 모든 선을 받들어 행하며, 스스로 그 마음을 깨끗이 하라. 이것이 모든 부처님의 가르침이다.':'Do no evil, do good, and purify your own mind. This is the teaching of all the Buddhas.';speakList([[txt,lang=='ko'?'ko-KR':'en-US']])}
+function voiceSel(lang){const vs=voicesFor(lang).slice().sort((a,b)=>score(b)-score(a));const cur=lang=='ko'?S.voiceKo:S.voiceEn;
+ if(!vs.length)return `<small>${L('이 기기에서 찾은 목소리가 없습니다. 아래 안내대로 목소리를 내려받아 주세요.','No voices found. See the tips below.')}</small>`;
+ return `<select data-voice="${lang}" style="font:inherit;font-size:1rem;padding:8px;border-radius:10px;border:1px solid var(--line);background:#fffdf6;max-width:100%">
+ <option value="">${L('자동 (가장 자연스러운 목소리)','Auto (most natural)')}</option>${vs.map(v=>`<option value="${esc(v.voiceURI||v.name)}" ${cur===(v.voiceURI||v.name)?'selected':''}>${esc(v.name)}${score(v)>=10?' ★':''}${v.localService===false?L(' (인터넷 필요)',' (online)'):''}</option>`).join('')}</select>
+ <button class="say" data-sample="${lang}">▶ ${L('들어 보기','Try')}</button>`}
 document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#pop');if(!t)return;
  if(t.id==='pop'&&e.target===t){t.classList.remove('on');return}
  if(t.id==='popx'){$('#pop').classList.remove('on');return}
@@ -803,6 +839,11 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#p
  if(t.dataset.term){showTerm(t.dataset.term);return}
  if(t.dataset.fav){const id=t.dataset.fav;if(favs.has(id)){favs.delete(id);toast(L('즐겨찾기에서 뺐습니다','Removed'))}else{favs.add(id);toast(L('⭐ 즐겨찾기에 담았습니다','⭐ Saved'))}store.set('favs',[...favs]);document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{b.classList.toggle('on',favs.has(id));b.textContent=favs.has(id)?'★':'☆'});return}
  if(t.dataset.say){sayItem(t.dataset.say,t);return}
+ if(t.dataset.sample){sample(t.dataset.sample);return}
+ if(t.dataset.playall!==undefined){const [sid,pi]=t.dataset.playall.split('/');playAll(ALL.filter(x=>x.sid===sid&&x.pi===+pi).map(x=>x.id));return}
+ if(t.id==='ttsstop'){ttsStop();return}
+ if(t.dataset.pitch){S.pitch=+t.dataset.pitch;saveSet();route();return}
+ if(t.dataset.tgr){S[t.dataset.tgr]=t.dataset.v==='1';saveSet();route();return}
  if(t.dataset.chant){if(t.classList.contains('on')){ttsStop();return}const its=SUTRAS[t.dataset.chant].parts[0].items;const P=its.map(it=>[it.r.replace(/\(세 번\)/g,'').replace(/ \/ /g,' '),'ko-KR']);if(t.dataset.chant==='heart'){const last=its[its.length-1].r;P.push([last,'ko-KR'],[last,'ko-KR'])}speakList(P,t);return}
  if(t.dataset.lang){S.lang=t.dataset.lang;saveSet();route();return}
  if(t.dataset.fs){S.fs=+t.dataset.fs;saveSet();route();return}
@@ -813,7 +854,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,.k,.en,#p
 $('#back').onclick=()=>{if(history.length>1)history.back();else location.hash='#/'};
 $('#rnd').onclick=()=>{const x=ALL[Math.floor(Math.random()*ALL.length)];location.hash='#/p/'+x.sid+'/'+x.pi;setTimeout(()=>{const el=document.getElementById('c'+x.id.replace(/\./g,'_'));if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('speaking');setTimeout(()=>el.classList.remove('speaking'),1600)}},80)};
 window.addEventListener('hashchange',route);
-try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+if(TTS){try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{if((location.hash||'').startsWith('#/set')&&!(document.activeElement&&document.activeElement.matches('select')))route()}}catch(e){}}
+document.addEventListener('change',e=>{const vl=e.target.dataset&&e.target.dataset.voice;if(vl){if(vl=='ko')S.voiceKo=e.target.value;else S.voiceEn=e.target.value;saveSet();sample(vl)}});
 applySet();route();
 if('serviceWorker' in navigator&&location.protocol==='https:'&&!/claude|anthropic/.test(location.host)){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 </script>
