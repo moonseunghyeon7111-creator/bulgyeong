@@ -65,7 +65,7 @@ nav.tabs button.on{color:#ffe0a0}
 .vid{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:150px 1fr;align-items:center}.vid.playing{grid-template-columns:1fr}.vid .vfr{order:-1}
 .vth{position:relative;aspect-ratio:16/9;background:#2b1d16;cursor:pointer}.vth img{width:100%;height:100%;object-fit:cover;display:block}
 .vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:30px;border-radius:9px;background:rgba(200,30,30,.9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
-.vfr{aspect-ratio:16/9;background:#000}.vfr iframe{width:100%;height:100%;border:0;display:block}
+.vseq{margin:4px 0 14px}.vseq .btn{width:100%}.vfr{aspect-ratio:16/9;background:#000}.vfr iframe{width:100%;height:100%;border:0;display:block}
 .vt{padding:9px 12px 2px;font-size:calc(.95rem * var(--fs));word-break:keep-all;line-height:1.5}.vyt{display:inline-block;margin:2px 12px 10px;font-size:.8rem;color:var(--muted)}
 .hide-h .h,.hide-r .r,.hide-z .ez{display:none}
 .study .k,.study .en{filter:blur(6px);cursor:pointer;transition:filter .2s}
@@ -1305,6 +1305,7 @@ function route(){ttsStop();try{$('#pop').classList.remove('on')}catch(e){}const 
  else if(p[0]==='v'){setHead(L('불교 영상','Buddhist Videos'),false);
   const vcard=([id,t])=>`<div class="vid"><div class="vth" data-vid="${id}"><img loading="lazy" src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" alt=""><span class="vplay">▶</span></div><div><div class="vt">${esc(t)}</div><a class="vyt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${L('유튜브에서 보기 ↗','Open in YouTube ↗')}</a></div></div>`;
   html=`<div class="chhead"><div class="hz">📺</div><div class="d">${L('BBS 불교방송 공식 유튜브 영상 — 누르면 바로 재생됩니다','Official BBS Buddhist Broadcasting videos — tap to play')}</div></div>`+
+  `<div class="vseq"><button class="btn alt" data-vseq="0">▶ ${L('처음부터 이어보기 — 사자후 품 ~ 보배경 ('+VSEQ().length+'편)','Play all in order ('+VSEQ().length+')')}</button><div class="foot" style="margin:6px 0 0">${L('한 편이 끝나면 다음 편이 저절로 이어서 재생됩니다. 아무 영상이나 눌러도 그 다음 편부터 이어집니다.','Each video continues to the next automatically.')}</div><div id="vplayer"></div></div>`+
   `<div class="vnav">${VIDEOS.map(c=>c.groups.map((g,gi)=>`<button data-vjump="vg_${c.id}_${gi}">${esc(g.t.split(' — ')[0])}</button>`).join('')).join('')}</div>`+
   VIDEOS.map(c=>`<div class="sec">${esc(c.t)}</div><div class="foot" style="margin:-4px 0 6px;text-align:left">${esc(c.d)}</div>`+c.groups.map((g,gi)=>`<div class="vgrp" id="vg_${c.id}_${gi}"><div class="vgt">${esc(g.t)}${g.sid?` <button class="say" data-go="#/s/${g.sid}">${L('경문 보기 ›','Read ›')}</button>`:''}</div><div class="vlist">${g.v.map(vcard).join('')}</div></div>`).join('')).join('')+
   `<div class="foot">${L('영상은 BBS 불교방송 유튜브 채널의 영상을 연결한 것입니다. 유튜브에서 지워진 영상은 재생되지 않을 수 있어요.','Videos are linked from the BBS YouTube channel.')}</div>`;
@@ -1372,6 +1373,8 @@ function startItem(id,keep){if(!TTS){toast(L('이 기기는 읽기 기능을 지
 function speakList(parts,btn,cardEl){ttsStop();if(!TTS){toast(L('이 기기는 읽기 기능을 지원하지 않습니다','Speech not supported'));return}
  btn&&btn.classList.add('on');Q=[];parts.forEach(([t,l])=>Q.push(...chunks(t,l)));qi=0;lastId=null;speakNext()}
 function sayItem(id,btn){if(btn.classList.contains('on')){ttsStop();return}startItem(id)}
+function VSEQ(){const all=[];VIDEOS.forEach(c=>c.groups.forEach(g=>g.v.forEach(v=>all.push(v[0]))));const e=all.indexOf('c61xF3Hv7F4');return e>=0?all.slice(0,e+1):all}
+function vIframe(id,rest){return `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1${rest.length?'&playlist='+rest.join(','):''}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}
 function markU(i){document.querySelectorAll('.usec.speaking').forEach(c=>c.classList.remove('speaking'));const c=document.getElementById('u_'+i);if(c){c.classList.add('speaking');c.scrollIntoView({block:'center',behavior:'smooth'})}const u=URIMAL.find(x=>location.hash.endsWith('/'+x.id));$('#ttstxt').textContent='🔊 '+(u?u.t:'우리말 경전');$('#ttsbar').classList.add('on')}
 function playU(id){const u=URIMAL.find(x=>x.id===id);if(!u)return;ttsStop();if(!TTS){toast('이 기기는 읽기 기능을 지원하지 않습니다');return}Q=[];
  u.secs.forEach((s,i)=>{const add=t=>Q.push({t,l:'ko-KR',uid:i});if(s.pt)add(s.pt);if(s.ti)add(s.ti);if(s.l){const n=(s.rep&&s.l)?s.rep:1;for(let r=0;r<n;r++)s.l.forEach(add)}if(s.m){const n=s.m.length<60?(s.rep||1):1;for(let r=0;r<n;r++)add(s.m)}});
@@ -1391,7 +1394,9 @@ document.addEventListener('click',e=>{const t=e.target.closest('.tl,.vth,button,
  if(t.dataset.fav){const id=t.dataset.fav;if(favs.has(id)){favs.delete(id);toast(L('즐겨찾기에서 뺐습니다','Removed'))}else{favs.add(id);toast(L('⭐ 즐겨찾기에 담았습니다','⭐ Saved'))}store.set('favs',[...favs]);document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{b.classList.toggle('on',favs.has(id));b.textContent=favs.has(id)?'★':'☆'});return}
  if(t.dataset.say){sayItem(t.dataset.say,t);return}
  if(t.dataset.sample){sample(t.dataset.sample);return}
- if(t.dataset.vid){const id=t.dataset.vid;ttsStop();t.closest('.vid').classList.add('playing');t.outerHTML=`<div class="vfr"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;return}
+ if(t.dataset.vseq!==undefined){ttsStop();const s=VSEQ();const pl=$('#vplayer');pl.innerHTML=`<div class="vfr" style="margin-top:10px;border-radius:12px;overflow:hidden">${vIframe(s[0],s.slice(1))}</div>`;pl.scrollIntoView({block:'start',behavior:'smooth'});return}
+ if(t.dataset.vid){const id=t.dataset.vid;ttsStop();const s=VSEQ(),i=s.indexOf(id);t.closest('.vid').classList.add('playing');t.outerHTML=`<div class="vfr">${vIframe(id,i>=0?s.slice(i+1):[])}</div>`;return}
+ if(0){const id=0;t.outerHTML=`<div class="vfr"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;return}
  if(t.dataset.vjump){const el=document.getElementById(t.dataset.vjump);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return}
  if(t.dataset.uplay){playU(t.dataset.uplay);return}
  if(t.dataset.playall!==undefined){const [sid,pi]=t.dataset.playall.split('/');playAll(ALL.filter(x=>x.sid===sid&&x.pi===+pi).map(x=>x.id));return}
