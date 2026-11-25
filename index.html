@@ -59,6 +59,14 @@ nav.tabs button.on{color:#ffe0a0}
 .urep{color:var(--muted);font-size:.85rem}.un{color:#4b6a37;font-size:calc(.9rem * var(--fs));margin-top:6px;word-break:keep-all}
 .tl{border-bottom:1.5px dotted #b07a1e;cursor:pointer;border-radius:2px}.tl:active{background:#f6e6c2}
 .study .k .tl{pointer-events:none}
+.vnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.vnav button{background:#f6e6c2;border:1px solid #e2c98f;color:#6b3f12;border-radius:14px;padding:4px 11px;font-size:.85rem;cursor:pointer}
+.vgrp{margin:10px 0 16px;scroll-margin-top:70px}.vgt{font-weight:700;color:var(--red);margin:6px 2px 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.vlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:10px}
+.vid{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:150px 1fr;align-items:center}.vid.playing{grid-template-columns:1fr}.vid .vfr{order:-1}
+.vth{position:relative;aspect-ratio:16/9;background:#2b1d16;cursor:pointer}.vth img{width:100%;height:100%;object-fit:cover;display:block}
+.vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:30px;border-radius:9px;background:rgba(200,30,30,.9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.vfr{aspect-ratio:16/9;background:#000}.vfr iframe{width:100%;height:100%;border:0;display:block}
+.vt{padding:9px 12px 2px;font-size:calc(.95rem * var(--fs));word-break:keep-all;line-height:1.5}.vyt{display:inline-block;margin:2px 12px 10px;font-size:.8rem;color:var(--muted)}
 .hide-h .h,.hide-r .r,.hide-z .ez{display:none}
 .study .k,.study .en{filter:blur(6px);cursor:pointer;transition:filter .2s}
 .study .k.show,.study .en.show{filter:none}
@@ -902,6 +910,77 @@ URIMAL.push({id:'chobal',t:'우리말 초발심자경문',h:'初發心自警文'
  {ti:'노래',l:['달이 뜨고 지며 늙음을 재촉하고','해가 뜨고 지며 세월을 재촉하네','이름과 이익은 아침 이슬 같고','괴로움과 영화는 저녁 연기 같으니','간곡히 권하노니 좋은 도를 닦아','어서 부처 이루어 헤매는 이를 건지라','이번 생에 이 말을 따르지 않으면','다음 생에 한이 만 갈래 되리라']},
  ]});
 
+// 📺 불교 영상 — BBS 불교방송 공식 유튜브 채널 영상 연결 (영상은 유튜브에서 재생됨)
+const VIDEOS=[
+{id:'app',t:'이 앱의 경전 영상',d:'공부 길의 경전과 함께 보면 좋은 독송·해설 영상',groups:[
+ {sid:'chobal',t:'초발심자경문',v:[
+  ['L1PgRYr-m5s','원영스님 불교대백과 33 — 출가자 수행의 시작 "발심" (발심수행장)'],
+  ['p275s8_zkLM','원영스님 불교대백과 34 — 자경문① "자신을 경계하라"'],
+  ['tUVHDDXTsyQ','원영스님 불교대백과 35 — 자경문② 자신을 경책하는 열 가지 항목'],
+  ['6fEluYy5EzI','오늘의 부처님 말씀 — 항상 행동을 조심하여야 한다 (초발심자경문 中)']]},
+ {sid:'heart',t:'반야심경',v:[
+  ['bTizqvC5X9o','독경 — 반야심경 (영인스님)'],
+  ['3no7ZHmXy60','정주행 — 260자에 담긴 불교의 지혜 "반야심경" (원영스님 불교대백과 65~67화)'],
+  ['EcjXuAWdknE','원영스님 65 — 반야심경 1탄: 지혜의 빛으로 열반에 이르는 마음의 경전'],
+  ['v7G-y_t2Mqs','원영스님 67 — 반야심경 3탄: 무무명 역무무명진'],
+  ['B77u4zD1oks','덕현스님이 쉽게 풀어주는 반야심경 2편 — 우리의 삶이 불행한 진짜 이유'],
+  ['UPbyVze9ESQ','덕현스님이 쉽게 풀어주는 반야심경 3편 — 삶은 괴로움 투성이다']]},
+ {sid:'dhamma',t:'법구경',v:[
+  ['35GCJe7YHi0','오디오경전 — 법구경: 진리의 말씀 전체 (장수연 아나운서)'],
+  ['8PvYg2VHQp4','오디오경전 — 법구경① 1장~8장'],
+  ['8eRg7ikF_u4','오디오경전 — 법구경② 9장~14장'],
+  ['YaNfvqPsQe8','오디오경전 — 법구경③ 15장~20장'],
+  ['W_tiv-5ZsNE','오디오경전 — 법구경④ 21장~26장'],
+  ['oQBgAbZ1ISQ','오늘의 부처님 말씀 — 마음에 좋고 나쁜 것을 따지지 마라 (법구경)'],
+  ['oGxrcOlfs7k','오늘의 부처님 말씀 — 지혜로운 사람은… (법구경 中)']]},
+ {sid:'chunsu',t:'천수경',v:[
+  ['R9O30wgdmw8','독경 — 천수경 (영인스님)'],
+  ['Kj476SXK-Jg','원영스님 불교대백과 61 — 천수경 1탄: 천 개의 손으로 중생을 보듬는 관세음보살'],
+  ['SKetbdo3iRA','독경 — 대한불교천태종 천수경 (안산스님)'],
+  ['1ChUYd1oc6A','일일독경 — 천수경 7독']]},
+ {sid:'diamond',t:'금강경',v:[
+  ['ge0bwN5U2-o','독경 — 금강경 독송 (영인스님, 한글/한문 자막)'],
+  ['59XJFgA3eeM','독경 — 우리말 금강경 (영인스님)'],
+  ['pFxM98oPGDc','독경 — 금강경 독송 (상진스님)'],
+  ['fEJW1PlsAR8','오디오경전 — 금강경 (정준영 아나운서)'],
+  ['rOyxlPk5FRg','종범스님의 금강경 몰아보기⑥ — "얻은 것도 없고, 말한 것도 없다"'],
+  ['0F1SgZwhyJs','일일수행 — 상진스님 금강경 7독 (4시간, 자막)']]},
+]},
+{id:'nikaya',t:'애니메이션 빠알리 대장경',d:'BBS 애니메이션 정주행 — 부처님의 초기 경전(니까야)',groups:[
+ {t:'맛지마 니까야 — 중간 길이로 설하신 경',v:[
+  ['Jn8Lipl2lcc','① 제1장 뿌리에 대한 법문 품 ~ 제2장 사자후 품'],
+  ['IWfRx_UZJzk','② 제3장 비유의 품 ~ 제5장 짧은 쌍 품'],
+  ['eUoeiTO8ucA','③ 제6장 장자 품 ~ 제7장 비구 품'],
+  ['-E6HULexAcY','④ 제8장 유행승 품'],
+  ['M-DMKzvHSmE','⑤ 제9장 왕 품'],
+  ['ukbYJChwWPo','⑥ 제10장 바라문 품 ~ 제11장 데와다하 품'],
+  ['jkYp8vuKTBo','⑦ 제12장 차례대로 품 ~ 제15장 여섯 감각 장소 품']]},
+ {t:'디가 니까야 — 길이가 긴 경',v:[
+  ['QzG3V3s5RxQ','① 제1품 계행다발의 품'],
+  ['S4f7C-_m_C4','② 제2품 큰 법문의 품'],
+  ['SGPTog25Po4','③ 제3품 빠띠까의 품']]},
+ {t:'쌍윳다 니까야 — 주제별로 모은 경',v:[
+  ['e1Z0iONDBqA','① 제2주제 신의 아들 ~ 제7주제 바라문'],
+  ['Bfpvl0UhTNU','② 제11주제 삭까 ~ 제20주제 비유'],
+  ['7Ikat0yoda4','③ 제22주제 무더기'],
+  ['4KNnZhJpuD8','④ 제41주제 찟다 ~ 제56주제 진리']]},
+ {t:'앙굿따라 니까야 — 짧은 길이의 경 모음',v:[
+  ['zWgo9xqM0WM','① 셋의 모음 ~ 다섯의 모음'],
+  ['TOmdeS1StuE','② 여섯의 모음 ~ 열의 모음']]},
+ {t:'숫타니파타 — 경전들의 모음',v:[
+  ['tfPVP1zKXcM','정주행 — 제1품 뱀의 품 ~ 제5품 피안 가는 길 품'],
+  ['E0F5Vb1B0qA','코뿔소의 뿔처럼 혼자서 가라'],
+  ['71QbclHg_vo','자신의 생각과 사상에 물들지 않는 사람'],
+  ['c61xF3Hv7F4','이 경을 듣는 모두가 행복하여지이다 (보배경)']]},
+ {t:'율장 · 특집',v:[
+  ['MAmId9hfXlc','마하박가 — 첫 설법에서 승단의 완성까지'],
+  ['mQClwaM3sp8','극장판 — 네 가지 마음챙김의 확립 (디가 니까야)'],
+  ['RnKubt_2zT4','인기 에피소드 모음 — 빠알리대장경'],
+  ['f5eCB6Rl2sM','빠알리대장경 "분노편"'],
+  ['LOJ5IooLnLY','과거는 떠나갔고, 미래는 아직 오지 않았다 (맛지마 니까야)']]},
+]},
+];
+
 </script>
 <script>
 const $=s=>document.querySelector(s);
@@ -955,7 +1034,7 @@ function card(x,opt={}){const it=x.it,q=opt.q||'';const n=opt.today?'':`<span cl
 function aboutBox(arr,title){return `<div class="about">${title?`<h3>${esc(title)}</h3>`:''}${arr.map(([k,e])=>(KO()?`<p>${esc(k)}</p>`:'')+((EN()||BOTH())?`<p class="en2">${esc(e)}</p>`:'')).join('')}</div>`}
 function dayIdx(){const d=new Date();const n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return ((n*7919)%ALL.length+ALL.length)%ALL.length}
 function langSeg(){return `<div class="seg" id="langSeg">${[['ko','한국어'],['en','English'],['both','함께 Both']].map(([v,l])=>`<button data-lang="${v}" class="${S.lang==v?'on':''}">${l}</button>`).join('')}</div>`}
-const TABS=[['#/','🪷','처음','Home'],['#/gloss','📖','용어','Terms'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
+const TABS=[['#/','🪷','처음','Home'],['#/gloss','📖','용어','Terms'],['#/v','📺','영상','Videos'],['#/search','🔍','검색','Search'],['#/fav','⭐','즐겨찾기','Saved'],['#/set','⚙️','설정','Settings']];
 function tabs(){const h=location.hash||'#/';const cur=h==='#/'?'#/':'#/'+(h.slice(2).split('/')[0]);
   const map={'#/intro':'#/','#/s':'#/','#/p':'#/','#/soon':'#/','#/chant':'#/','#/path':'#/','#/u':'#/'};const c=map[cur]||cur;
   $('#tabs').innerHTML=TABS.map(([hr,i,k,e])=>`<button data-go="${hr}" class="${c==hr?'on':''}"><span class="i">${i}</span>${L(k,e)}</button>`).join('')}
@@ -975,7 +1054,7 @@ function route(){ttsStop();try{$('#pop').classList.remove('on')}catch(e){}const 
  else if(p[0]==='path'){setHead(L('공부 길','Study Path'),false);html=`<div class="chhead"><div class="hz">修行之道</div><div class="d">${L('입문 → 초급 → 중급 → 고급 순서로 올라갑니다','From introduction to beginner, intermediate and advanced')}</div></div>${PATH.map((x,i)=>stepBtn(x,i)).join('')}`}
  else if(p[0]==='intro'){setHead(L('불경이란?','What Are the Sutras?'),true);html=`<div class="chhead"><div class="hz">佛經入門</div><div class="d">${L('불경 공부를 시작하기 전에 알아 두면 좋은 이야기','Good to know before you begin')}</div></div>`+INTRO.map(a=>aboutBox(a.p,L(a.t,a.te))).join('')+`<div class="pager"><button data-go="#/s/chobal">${L('첫 경전 시작하기: 초발심자경문 ›','Start the first text: Chobalsim ›')}</button></div>`}
  else if(p[0]==='s'){const s=SUTRAS[p[1]];if(!s){location.hash='#/';return}setHead(L(s.t,s.te),true);
-  html=`<div class="chhead"><div class="hz">${s.h}</div><div class="d">${esc(L(s.t,s.te))}</div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}`;
+  html=`<div class="chhead"><div class="hz">${s.h}</div><div class="d">${esc(L(s.t,s.te))}</div></div>${aboutBox(s.about,L('이 경전은?','About this text'))}`+(VIDEOS[0].groups.some(g=>g.sid===p[1])?`<div class="pager" style="margin:4px 0 8px"><button class="btn" data-go="#/v/${p[1]}">📺 ${L('관련 영상 보기','Related videos')}</button></div>`:'');
   if(s.parts.length===1){const pt=s.parts[0];html+=`<div class="chhead"><div class="by">${esc(L(pt.by,pt.bye))}</div></div>`;if(s.chant)html+=`<div class="pager"><button class="alt btn" data-go="#/chant/${p[1]}">📿 ${L('독송 모드 (전체 이어서 보기)','Chanting mode (full text)')}</button></div>`;
    html+=`<div class="pager" style="margin:6px 0 4px"><button class="btn alt" data-playall="${p[1]}/0">🔊 ${L('처음부터 이어서 듣기','Listen to all')}</button></div>`+ALL.filter(x=>x.sid===p[1]).map(x=>card(x)).join('')}
   else{html+=`<div class="sec">${p[1]==='chobal'?L('세 편의 글로 이루어져 있습니다','Made up of three works'):L(s.parts.length+'개의 장(품)으로 이루어져 있습니다',s.parts.length+' chapters')}</div>`+s.parts.map((pt,i)=>`<button class="step${pt.soon?' soon':''}" data-go="${pt.soon?'':'#/p/'+p[1]+'/'+i}" ${pt.soon?'data-soon="1"':''}><span class="no">${i+1}</span><span class="tt"><b>${esc(L(pt.t,pt.te))}</b>${KO()?`<span class="hz">${pt.h}</span>`:''}${pt.soon?`<span class="soontag">${L('준비 중','Coming soon')}</span>`:''}<small>${esc(L(pt.by,pt.bye))}</small><small>${esc(L(pt.d,pt.de))}</small></span><span class="go">›</span></button>`).join('')}
@@ -993,6 +1072,13 @@ function route(){ttsStop();try{$('#pop').classList.remove('on')}catch(e){}const 
   html=`<div class="chhead"><div class="hz">${u.h}</div><div class="d">${esc(u.t)}</div><div class="by">${esc(u.d)}</div></div><div class="about"><p>${esc(u.intro)}</p></div>
   <div class="pager" style="margin:6px 0 10px"><button class="btn alt" data-uplay="${u.id}">🔊 이어서 듣기</button><button class="btn" data-go="#/s/${u.src}">원문 보기 ›</button></div>
   <div class="uw">`+u.secs.map((s,i)=>`<div class="usec${s.pt?' upart':''}" id="u_${i}">${s.pt?`<div class="upt">${esc(s.pt)}</div>`:''}${s.ti?`<div class="uti">${esc(s.ti)}</div>`:''}${s.l?(()=>{const used=new Set();return s.l.map(x=>`<div class="ul">${linkify(x,used,'k')}</div>`).join('')})():''}${s.m?`<div class="um">${esc(s.m)}</div>`:''}${s.rep?`<div class="urep">(${s.rep===3?'세':s.rep} 번)</div>`:''}${s.n?`<div class="un">— ${esc(s.n)}</div>`:''}</div>`).join('')+`<div class="ul" style="text-align:center;margin-top:18px;color:var(--muted)">🪷</div></div>`}
+ else if(p[0]==='v'){setHead(L('불교 영상','Buddhist Videos'),false);
+  const vcard=([id,t])=>`<div class="vid"><div class="vth" data-vid="${id}"><img loading="lazy" src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" alt=""><span class="vplay">▶</span></div><div><div class="vt">${esc(t)}</div><a class="vyt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${L('유튜브에서 보기 ↗','Open in YouTube ↗')}</a></div></div>`;
+  html=`<div class="chhead"><div class="hz">📺</div><div class="d">${L('BBS 불교방송 공식 유튜브 영상 — 누르면 바로 재생됩니다','Official BBS Buddhist Broadcasting videos — tap to play')}</div></div>`+
+  `<div class="vnav">${VIDEOS.map(c=>c.groups.map((g,gi)=>`<button data-vjump="vg_${c.id}_${gi}">${esc(g.t.split(' — ')[0])}</button>`).join('')).join('')}</div>`+
+  VIDEOS.map(c=>`<div class="sec">${esc(c.t)}</div><div class="foot" style="margin:-4px 0 6px;text-align:left">${esc(c.d)}</div>`+c.groups.map((g,gi)=>`<div class="vgrp" id="vg_${c.id}_${gi}"><div class="vgt">${esc(g.t)}${g.sid?` <button class="say" data-go="#/s/${g.sid}">${L('경문 보기 ›','Read ›')}</button>`:''}</div><div class="vlist">${g.v.map(vcard).join('')}</div></div>`).join('')).join('')+
+  `<div class="foot">${L('영상은 BBS 불교방송 유튜브 채널의 영상을 연결한 것입니다. 유튜브에서 지워진 영상은 재생되지 않을 수 있어요.','Videos are linked from the BBS YouTube channel.')}</div>`;
+  if(p[1])setTimeout(()=>{const c=VIDEOS[0].groups.findIndex(g=>g.sid===p[1]);const el=document.getElementById('vg_app_'+c);if(el)el.scrollIntoView({block:'start'})},60)}
  else if(p[0]==='gloss'){setHead(L('불교 용어 사전','Glossary'),false);html=`<div class="search"><input id="gq" type="search" placeholder="${L('용어 찾기 (예: 공, 보살, 열반)','Find a term')}" value="${esc(V.gq||'')}"></div><div id="gres"></div>`}
  else if(p[0]==='search'){setHead(L('검색','Search'),false);html=`<div class="search"><input id="q" type="search" placeholder="${L('낱말 입력 (예: 자비, 공, 空)','Type a word')}" value="${esc(V.q||'')}"></div><div id="res"></div>`}
  else if(p[0]==='fav'){setHead(L('즐겨찾기','Saved'),false);const l=ALL.filter(x=>favs.has(x.id));html=l.length?l.map(x=>card(x,{where:1})).join(''):`<div class="empty">⭐<br>${L('마음에 닿는 구절의 ☆를 눌러 모아 두세요.','Tap ☆ on a verse to save it here.')}</div>`}
@@ -1067,7 +1153,7 @@ function voiceSel(lang){const vs=voicesFor(lang).slice().sort((a,b)=>score(b)-sc
  return `<select data-voice="${lang}" style="font:inherit;font-size:1rem;padding:8px;border-radius:10px;border:1px solid var(--line);background:#fffdf6;max-width:100%">
  <option value="">${L('자동 (가장 자연스러운 목소리)','Auto (most natural)')}</option>${vs.map(v=>`<option value="${esc(v.voiceURI||v.name)}" ${cur===(v.voiceURI||v.name)?'selected':''}>${esc(v.name)}${score(v)>=10?' ★':''}${v.localService===false?L(' (인터넷 필요)',' (online)'):''}</option>`).join('')}</select>
  <button class="say" data-sample="${lang}">▶ ${L('들어 보기','Try')}</button>`}
-document.addEventListener('click',e=>{const t=e.target.closest('.tl,button,.k,.en,#pop');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('.tl,.vth,button,.k,.en,#pop');if(!t)return;
  if(t.id==='pop'&&e.target===t){t.classList.remove('on');return}
  if(t.id==='popx'){$('#pop').classList.remove('on');return}
  if(t.dataset.go!==undefined){if(t.dataset.soon){toast(L('다음 단계에서 추가됩니다 🪷','Coming in the next stage 🪷'));return}if(t.dataset.go)location.hash=t.dataset.go;return}
@@ -1075,6 +1161,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('.tl,button,.k,.e
  if(t.dataset.fav){const id=t.dataset.fav;if(favs.has(id)){favs.delete(id);toast(L('즐겨찾기에서 뺐습니다','Removed'))}else{favs.add(id);toast(L('⭐ 즐겨찾기에 담았습니다','⭐ Saved'))}store.set('favs',[...favs]);document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{b.classList.toggle('on',favs.has(id));b.textContent=favs.has(id)?'★':'☆'});return}
  if(t.dataset.say){sayItem(t.dataset.say,t);return}
  if(t.dataset.sample){sample(t.dataset.sample);return}
+ if(t.dataset.vid){const id=t.dataset.vid;ttsStop();t.closest('.vid').classList.add('playing');t.outerHTML=`<div class="vfr"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;return}
+ if(t.dataset.vjump){const el=document.getElementById(t.dataset.vjump);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return}
  if(t.dataset.uplay){playU(t.dataset.uplay);return}
  if(t.dataset.playall!==undefined){const [sid,pi]=t.dataset.playall.split('/');playAll(ALL.filter(x=>x.sid===sid&&x.pi===+pi).map(x=>x.id));return}
  if(t.id==='ttsstop'){ttsStop();return}
